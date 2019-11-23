@@ -13,6 +13,7 @@ Documentation for Urban Gardening
   - [setting up Kubernetes](#setting-up-kubernetes)
     - [Master node setup](#master-node-setup)
     - [worker node setup](#worker-node-setup)
+  - [Testing Kubernetes](#testing-kubernetes)
 
 # Introduction
 
@@ -24,14 +25,19 @@ Documentation for Urban Gardening
 
 Components listed per greenhouse.
 
-| Component            | Description                   | Quantity |
-| -------------------- | ----------------------------- | :------: |
-| Raspberry Pi 3B / 4B | Content Cell                  |    1     |
-| MicroSD Card 32GB    | Content Cell                  |    1     |
-| DHT22                | 2.5A Power Supply recommended |    1     |
-| 5v Power Supply      | 2.5A Power Supply recommended |    1     |
-| 5v Power Supply      | 2.5A Power Supply recommended |    1     |
-| 5v Power Supply      | 2.5A Power Supply recommended |    1     |
+| Component                 | Description                   | Quantity |
+| ------------------------- | ----------------------------- | :------: |
+| Raspberry Pi 3B / 4B      | Content Cell                  |    4     |
+| MicroSD Card 32GB         | Content Cell                  |    4     |
+| DHT22 Sensor              | Temperature & Humidity Sensor |    4     |
+| Water Level Sensor        | Analog Water Level Sensor     |    4     |
+| Soil Moisture Sensor      | Analog Soil Moisture Sensor   |    4     |
+| LDR                       | Light Dependent Resistor      |    4     |
+| MCP3008                   | 8 Channel 10-bit ADC          |    4     |
+| Breadboard                | -                             |    4     |
+| Male to Male Connectors   | -                             |    30    |
+| Male to Female Connectors | -                             |   100    |
+| 5vPower Supply            | -                             |    4     |
 
 ## Initial Setup
 
@@ -63,3 +69,5 @@ raspi-config
 ### Master node setup
 
 ### worker node setup
+
+## Testing Kubernetes
