@@ -14,6 +14,7 @@ Documentation for Urban Gardening
     - [Master node setup](#master-node-setup)
     - [worker node setup](#worker-node-setup)
   - [Testing Kubernetes](#testing-kubernetes)
+- [Connecting Sensors](#connecting-sensors)
 
 # Introduction
 
@@ -37,7 +38,7 @@ Components listed per greenhouse.
 | Breadboard                | -                             |    4     |
 | Male to Male Connectors   | -                             |    30    |
 | Male to Female Connectors | -                             |   100    |
-| 5vPower Supply            | -                             |    4     |
+| 5v Power Supply           | 2.5A Power Supply recommended |    4     |
 
 ## Initial Setup
 
@@ -71,3 +72,6 @@ raspi-config
 ### worker node setup
 
 ## Testing Kubernetes
+
+# Connecting Sensors
+![Wiring Diagram](../Wiring&#32;Diagram/Wiring&#32;Diagram_bb.png)
