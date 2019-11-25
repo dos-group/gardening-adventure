@@ -1,0 +1,8 @@
+FROM balenalib/apalis-imx6q-node
+
+RUN apt-get update && apt-get install -y iptables batctl git
+
+RUN git clone git@github.com:citlab/gardening-adventure.git
+RUN cp gardening-adventure/batman/gateway/configs/* etc/network/interfaces.d/
+
+RUN chmod 700 gardening-adventure/batman/gateway/garden-mesh.sh
