@@ -13,6 +13,9 @@ Documentation for Urban Gardening
   - [setting up Kubernetes](#setting-up-kubernetes)
     - [Master node setup](#master-node-setup)
     - [worker node setup](#worker-node-setup)
+  - [Setting B.A.T.M.A.N](#batman-setup)
+    - [Gateway node setup](#gateway-node-setup)
+    - [Mesh node setup](#mesh-node-setup)
   - [Testing Kubernetes](#testing-kubernetes)
 - [Connecting Sensors](#connecting-sensors)
 
@@ -71,7 +74,42 @@ raspi-config
 
 ### worker node setup
 
+## Setting up B.A.T.M.A.N
+
+A mesh network is created using B.A.T.M.A.N Adv. The resultant topology contains general nodes along with some nodes acting as gateways to connect to the server . The gateways nodes are connected to internet via ethernet and nodes are connected among each other on wlan using B.A.T.M.A.N Adv. The configuration for B.A.T.M.A.N Adv in your Pi are established through containers, by build corressponding images from the dockerfile listed under `batman` folder.
+
+When you add a new node, make sure to modify the ip address listed in `bat0` file accordingly.
+
+### Gateway node setup
+
+Run the following commands from the directory that contains the dockerfile to build gateway image.
+
+```bash
+  docker build -t gateway-img .
+```
+
+Now, Run the container from the image
+
+```bash
+  docker run --network=host --privileged -d -it gateway-img /bin/bash gardening-adventure/batman/gateway/garden-mesh.sh
+```
+
+### Mesh node setup
+
+Run the following commands from the directory that contains the dockerfile to build node image.
+
+```bash
+  docker build -t node-img .
+```
+
+Now, Run the container from the image
+
+```bash
+  docker run --network=host --privileged -d -it node-img /bin/bash gardening-adventure/batman/node/garden-mesh.sh
+```
+
 ## Testing Kubernetes
 
 # Connecting Sensors
+
 ![Wiring Diagram](../Wiring&#32;Diagram/Wiring&#32;Diagram_bb.png)
