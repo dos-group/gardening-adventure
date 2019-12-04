@@ -112,4 +112,4 @@ Now, Run the container from the image
 
 # Connecting Sensors
 
-![Wiring Diagram](./diagrams/wiring&#32;diagram/Wiring&#32;Diagram_bb.png)
+![Wiring Diagram](./documentation/diagrams/wiring&#32;diagram/Wiring&#32;Diagram_bb.png)
