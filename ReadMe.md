@@ -20,7 +20,9 @@ Documentation for Urban Gardening
 - [Connecting Sensors](#connecting-sensors)
 
 # Introduction
-
+![Overview](./documentation/diagrams/concept_overview_1.png)
+![Overview](./documentation/diagrams/technical_overview.png)
+![Overview](./documentation/diagrams/concept_overview_2.png)
 ## Goal
 
 # Prerequisites & Components
