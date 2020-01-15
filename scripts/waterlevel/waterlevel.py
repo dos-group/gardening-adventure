@@ -1,6 +1,8 @@
+#!/usr/bin/python
 import RPi.GPIO as GPIO
 import time
 from mqtt_client import ServerCom
+
 # change these as desired - they're the pins connected from the
 # SPI port on the ADC to the Cobbler
 SPICLK = 11
@@ -23,7 +25,7 @@ class WaterLevel:
         GPIO.setup(SPIMISO, GPIO.IN)
         GPIO.setup(SPICLK, GPIO.OUT)
         GPIO.setup(SPICS, GPIO.OUT)
-        self.mqtt_client = ServerCom(server_host='ec2-3-122-180-139.eu-central-1.compute.amazonaws.com')
+        self.mqtt_client = ServerCom(server_host='3.122.180.139')
         self.collector()
 
     # read SPI data from MCP3008(or MCP3204) chip,8 possible adc's (0 thru 7)
@@ -65,7 +67,7 @@ class WaterLevel:
         print('start collecting data')
         while True:
             adc_value = self.readadc(photo_ch, SPICLK, SPIMOSI, SPIMISO, SPICS)
-            self.mqtt_client.publish_sensor_data("water_level",adc_value)
+            self.mqtt_client.publish_sensor_data("water_level", adc_value)
             time.sleep(2)
 
 
