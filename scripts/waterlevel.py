@@ -25,7 +25,7 @@ class WaterLevel:
         GPIO.setup(SPIMISO, GPIO.IN)
         GPIO.setup(SPICLK, GPIO.OUT)
         GPIO.setup(SPICS, GPIO.OUT)
-        self.mqtt_client = ServerCom(server_host='3.122.180.139')
+        self.mqtt_client = ServerCom()
         self.collector()
 
     # read SPI data from MCP3008(or MCP3204) chip,8 possible adc's (0 thru 7)
