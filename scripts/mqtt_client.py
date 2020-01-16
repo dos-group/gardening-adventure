@@ -2,17 +2,27 @@ import paho.mqtt.client as mqtt
 import json
 import time
 import getpass
+import os
 import random
+
 
 class ServerCom:
     SENSORS = 'sensors'
 
     def __init__(self, server_port=1883, server_host='localhost'):
-        self.server_port = server_port
-        self.server_host = server_host
+
+        if 'SERVER_PORT' in os.environ:
+            self.server_port = os.environ['SERVER_PORT']
+        else:
+            self.server_port = server_port
+        if 'SERVER_HOST' in os.environ:
+            self.server_port = os.environ['SERVER_PORT']
+        else:
+            self.server_host = server_host
+
         self.mqtt_c = mqtt.Client("gateway")
         self.connect()
-        #self.mqtt_c.loop_forever()
+        # self.mqtt_c.loop_forever()
 
     def connect(self):
         def on_connect(mqttc, obj, flags, rc):
@@ -42,9 +52,8 @@ class ServerCom:
         ret = self.mqtt_c.publish(self.SENSORS, msg, qos=2)
         ret.wait_for_publish()
 
+# if __name__ == "__main__":
+# com = ServerCom(server_host='3.122.180.139')
 
-#if __name__ == "__main__":
-    #com = ServerCom(server_host='3.122.180.139')
-
-    #com.publish_sensor_data('water_level', str(random.randint(1, 101)))
-    #time.sleep(1)
+# com.publish_sensor_data('water_level', str(random.randint(1, 101)))
+# time.sleep(1)
