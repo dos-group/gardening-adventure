@@ -16,7 +16,7 @@ class ServerCom:
         else:
             self.server_port = server_port
         if 'SERVER_HOST' in os.environ:
-            self.server_port = os.environ['SERVER_PORT']
+            self.server_host = os.environ['SERVER_HOST']
         else:
             self.server_host = server_host
 
