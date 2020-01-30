@@ -20,7 +20,9 @@ class ServerCom:
         else:
             self.server_host = server_host
 
-        self.mqtt_c = mqtt.Client("gateway")
+        print("Connect to", self.server_host, self.server_port)
+        self.mqtt_c = mqtt.Client(getpass.getuser())
+        print("Connected")
         self.connect()
         # self.mqtt_c.loop_forever()
 
