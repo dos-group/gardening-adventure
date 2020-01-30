@@ -76,7 +76,7 @@ serviceAccount:
   create: true
   # The name of the ServiceAccount to use.
   # If not set and create is true, a name is generated using the fullname template
-  name:
+  name: "telegraf"
 
 ## Exposed telegraf configuration
 ## For full list of possible values see `/docs/all-config-values.yaml` and `/docs/all-config-values.toml`
@@ -108,6 +108,7 @@ config:
   inputs:
     - mqtt_consumer:
         name_prefix: ""
+        servers: ["tcp://10.43.131.239:1883"]
         qos: 2
         connection_timeout: "30s"
         topics:
@@ -124,7 +125,7 @@ config:
   outputs:
     - influxdb:
         urls:
-          - "http://10.43.103.242:8086"
-        database: "sensors"
+          - "http://10.43.32.147:8086"
+        database: "garden"
         username: "telegraf"
         password: "dspj2020"
