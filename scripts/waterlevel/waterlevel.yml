@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: waterlevel
+  labels:
+    app: waterlevel 
+spec:
+  containers:
+  - name: waterlevel-container
+    image: p2w2/waterlevel
+    env:
+    - name: SERVER_HOST
+      value: "10.43.131.239"
+    securityContext:
+      privileged: true
+
+  nodeSelector:
+    sensor: waterlevel
+
