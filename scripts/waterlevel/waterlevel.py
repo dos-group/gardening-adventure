@@ -1,30 +1,29 @@
 #!/usr/bin/python
 import RPi.GPIO as GPIO
-import time
+from time import sleep
 from mqtt_client import ServerCom
-
-# change these as desired - they're the pins connected from the
-# SPI port on the ADC to the Cobbler
-SPICLK = 11
-SPIMISO = 9
-SPIMOSI = 10
-SPICS = 8
-
-# photoresistor connected to adc #0
-photo_ch = 0
 
 
 class WaterLevel:
-    def __init__(self):
+    DELAY_INTERVAL = 2
+    # change these as desired - they're the pins connected from the
+    # SPI port on the ADC to the Cobbler
+    SPICLK = 11
+    SPIMISO = 9
+    SPIMOSI = 10
+    SPICS = 8
 
+    def __init__(self):
+        # photoresistor connected to adc #0
+        self.photo_ch = 0
         GPIO.setwarnings(False)
         GPIO.cleanup()  # clean up at the end of your script
         GPIO.setmode(GPIO.BCM)  # to specify whilch pin numbering system
         # set up the SPI interface pins
-        GPIO.setup(SPIMOSI, GPIO.OUT)
-        GPIO.setup(SPIMISO, GPIO.IN)
-        GPIO.setup(SPICLK, GPIO.OUT)
-        GPIO.setup(SPICS, GPIO.OUT)
+        GPIO.setup(WaterLevel.SPIMOSI, GPIO.OUT)
+        GPIO.setup(WaterLevel.SPIMISO, GPIO.IN)
+        GPIO.setup(WaterLevel.SPICLK, GPIO.OUT)
+        GPIO.setup(WaterLevel.SPICS, GPIO.OUT)
         self.mqtt_client = ServerCom()
         self.collector()
 
@@ -66,9 +65,10 @@ class WaterLevel:
     def collector(self):
         print('start collecting data')
         while True:
-            adc_value = self.readadc(photo_ch, SPICLK, SPIMOSI, SPIMISO, SPICS)
+            adc_value = self.readadc(self.photo_ch, WaterLevel.SPICLK, WaterLevel.SPIMOSI, WaterLevel.SPIMISO,
+                                     WaterLevel.SPICS)
             self.mqtt_client.publish_sensor_data("water_level", adc_value)
-            time.sleep(2)
+            sleep(WaterLevel.DELAY_INTERVAL)
 
 
 if __name__ == '__main__':

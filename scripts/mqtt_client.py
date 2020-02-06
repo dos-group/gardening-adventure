@@ -3,7 +3,7 @@ import json
 import time
 import getpass
 import os
-import random
+#import random
 
 
 class ServerCom:
