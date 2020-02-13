@@ -1,6 +1,8 @@
 #!/usr/bin/python
 import RPi.GPIO as GPIO
 from time import sleep
+from mqtt_publisher import Publisher
+import getpass
 
 
 class LDR:
@@ -11,6 +13,7 @@ class LDR:
     SPIMOSI = 10
     SPICS = 8
     DELAY_INTERVAL = 2
+    TOPIC = 'sensor/light/'
 
     def __init__(self):
 
@@ -25,7 +28,8 @@ class LDR:
         GPIO.setup(LDR.SPIMISO, GPIO.IN)
         GPIO.setup(LDR.SPICLK, GPIO.OUT)
         GPIO.setup(LDR.SPICS, GPIO.OUT)
-        # self.mqtt_client = ServerCom()
+
+        self.publisher = Publisher(self.TOPIC + getpass.getuser())
         self.collector()
 
     # read SPI data from MCP3008(or MCP3204) chip,8 possible adc's (0 thru 7)
@@ -68,7 +72,7 @@ class LDR:
         while True:
             adc_value = self.readadc(self.photo_ch, LDR.SPICLK, LDR.SPIMOSI, LDR.SPIMISO, LDR.SPICS)
             print('adc_value', adc_value)
-            self.mqtt_client.publish_sensor_data("ldr", adc_value)
+            self.publisher.publish_sensor_data("ldr", adc_value)
             sleep(LDR.DELAY_INTERVAL)
 
 
