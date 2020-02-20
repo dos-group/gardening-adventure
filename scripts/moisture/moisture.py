@@ -1,6 +1,7 @@
 from time import sleep
 import RPi.GPIO as GPIO
-
+import time
+from mqtt_publisher import Publisher
 # Import SPI library (for hardware SPI) and MCP3008 library.
 import Adafruit_MCP3008
 
@@ -12,6 +13,7 @@ class Moisture():
     MOSI = 10
     CS = 8
     DELAY_INTERVAL = 2
+    TOPIC = 'sensor/moisture/'
 
     def __init__(self):
         # Setup the GPIO board
@@ -20,7 +22,7 @@ class Moisture():
         # Setup the switch pin
         # SWITCH = 20
         # GPIO.setup(SWITCH, GPIO.OUT)
-
+        self.mqtt_client = Publisher(self.TOPIC)
         self.mcp = Adafruit_MCP3008.MCP3008(clk=Moisture.CLK, cs=Moisture.CS, miso=Moisture.MISO, mosi=Moisture.MOSI)
 
     def read(self):
@@ -37,7 +39,6 @@ class Moisture():
 
             while True:
                 value = self.read()
-                print('moisture value: ', value)
                 self.mqtt_client.publish_sensor_data("moisture", value)
                 sleep(Moisture.DELAY_INTERVAL)
         except:

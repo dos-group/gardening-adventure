@@ -1,13 +1,14 @@
 import Adafruit_DHT as dht
 from time import sleep
-from mqtt_client import ServerCom
-
+from mqtt_publisher import Publisher
+import getpass
 
 class DHT:
     DELAY_INTERVAL = 2
+    TOPIC = 'sensor/dht/'
 
     def __init__(self):
-        self.mqtt_client = ServerCom()
+        self.mqtt_client = Publisher(self.TOPIC + getpass.getuser())
 
     def read(self):
         h, t = dht.read_retry(dht.DHT22, 4)
@@ -20,7 +21,6 @@ class DHT:
         print('start collecting air sensor data')
         while True:
             temp_value, hum_value = self.read()
-            print('Temperature at: ', temp_value, ' Humidity at: ', hum_value)
             self.mqtt_client.publish_sensor_data("dht_temp", temp_value)
             self.mqtt_client.publish_sensor_data("dht_hum", hum_value)
             sleep(DHT.DELAY_INTERVAL)

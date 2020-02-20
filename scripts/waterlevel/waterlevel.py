@@ -1,7 +1,8 @@
 #!/usr/bin/python
 import RPi.GPIO as GPIO
 from time import sleep
-from mqtt_client import ServerCom
+from mqtt_publisher import Publisher
+import getpass
 
 
 class WaterLevel:
@@ -12,6 +13,7 @@ class WaterLevel:
     SPIMISO = 9
     SPIMOSI = 10
     SPICS = 8
+    TOPIC = 'sensor/waterlevel/'
 
     def __init__(self):
         # photoresistor connected to adc #0
@@ -24,7 +26,7 @@ class WaterLevel:
         GPIO.setup(WaterLevel.SPIMISO, GPIO.IN)
         GPIO.setup(WaterLevel.SPICLK, GPIO.OUT)
         GPIO.setup(WaterLevel.SPICS, GPIO.OUT)
-        self.mqtt_client = ServerCom()
+        self.mqtt_client = Publisher(self.TOPIC + getpass.getuser())
         self.collector()
 
     # read SPI data from MCP3008(or MCP3204) chip,8 possible adc's (0 thru 7)
