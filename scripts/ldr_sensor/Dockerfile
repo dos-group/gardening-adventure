@@ -1,14 +1,14 @@
-FROM resin/raspberrypi3-alpine:edge AS build
-# Copy necessary files
-ADD ldr_script.py /
-ADD mqtt_client.py /
-# Install build requirements
-RUN apk add --no-cache \
-      python3 gcc libc-dev parted-dev python3-dev
-RUN pip3 install --upgrade pip
+FROM balenalib/rpi-raspbian:latest
 
-RUN pip3 install gpiozero
+ADD ldr.py /
+ADD mqtt_publisher.py /
+
+RUN apt update
+RUN apt-get install python3
+RUN apt-get install python3-pip
+RUN apt-get install python3-dev
+
 RUN pip3 install RPi.GPIO
 RUN pip3 install paho-mqtt
 
-ENTRYPOINT ["python3", "-u", "ldr_script.py"]
+ENTRYPOINT ["python3", "-u", "ldr.py"]

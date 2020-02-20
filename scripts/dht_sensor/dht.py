@@ -13,7 +13,7 @@ class DHT:
     def read(self):
         h, t = dht.read_retry(dht.DHT22, 4)
         if h is not None and t is not None:
-            return '{0:0.1f}*C'.format(t), '{1:0.1f}%'.format(h)
+            return '{0:0.1f}*C'.format(t), '{0:0.1f}%'.format(h)
         else:
             print('failed to retrieve the data')
 
