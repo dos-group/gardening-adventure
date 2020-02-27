@@ -24,6 +24,7 @@ class Moisture():
         # GPIO.setup(SWITCH, GPIO.OUT)
         self.mqtt_client = Publisher(self.TOPIC)
         self.mcp = Adafruit_MCP3008.MCP3008(clk=Moisture.CLK, cs=Moisture.CS, miso=Moisture.MISO, mosi=Moisture.MOSI)
+        self.collector()
 
     def read(self):
         #        GPIO.output(SWITCH, GPIO.HIGH)
@@ -43,3 +44,6 @@ class Moisture():
                 sleep(Moisture.DELAY_INTERVAL)
         except:
             GPIO.cleanup()
+
+if __name__ == '__main__':
+    moisture = Moisture()

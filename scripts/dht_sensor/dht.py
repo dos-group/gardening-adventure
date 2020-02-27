@@ -9,6 +9,7 @@ class DHT:
 
     def __init__(self):
         self.mqtt_client = Publisher(self.TOPIC + getpass.getuser())
+        self.collector()
 
     def read(self):
         h, t = dht.read_retry(dht.DHT22, 4)
@@ -24,3 +25,6 @@ class DHT:
             self.mqtt_client.publish_sensor_data("dht_temp", temp_value)
             self.mqtt_client.publish_sensor_data("dht_hum", hum_value)
             sleep(DHT.DELAY_INTERVAL)
+
+if __name__ == '__main__':
+    dht = DHT()

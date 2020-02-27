@@ -7,7 +7,7 @@ metadata:
 spec:
   containers:
   - name: moisture-container
-    image: shrihari93/dsproject:moisture_sensor
+    image: shrihari93/moisture_sensor
     env:
     - name: SERVER_HOST
       value: "10.43.131.239"

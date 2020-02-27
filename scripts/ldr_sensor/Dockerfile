@@ -1,6 +1,6 @@
 FROM balenalib/rpi-raspbian:latest
 
-ADD ldr.py /
+ADD ldr_sensor/ldr.py /
 ADD mqtt_publisher.py /
 
 RUN apt update

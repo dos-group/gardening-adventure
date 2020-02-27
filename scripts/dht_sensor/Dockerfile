@@ -1,6 +1,6 @@
 FROM balenalib/rpi-raspbian:latest
 
-ADD dht.py /
+ADD dht_sensor/dht.py /
 ADD mqtt_publisher.py /
 
 RUN apt update

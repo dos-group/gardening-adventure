@@ -7,7 +7,7 @@ metadata:
 spec:
   containers:
   - name: luminence-container
-    image: shrihari93/dsproject:ldr_sensor
+    image: shrihari93/ldr_sensor
     env:
     - name: SERVER_HOST
       value: "10.43.131.239"
