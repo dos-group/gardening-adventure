@@ -1,0 +1,5 @@
+auto bat0
+iface bat0 inet6 auto
+    pre-up /usr/sbin/batctl if add wlan0
+iface bat0 inet dhcp
+
