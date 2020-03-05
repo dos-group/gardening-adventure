@@ -14,8 +14,8 @@ spec:
       env:
         - name: SERVER_HOST
           value: "${brokerIP}"
-            - name: "DEVICE_NAME"
-              value: "${nodeName}"
+        - name: "DEVICE_NAME"
+          value: "${nodeName}"
       securityContext:
         privileged: true
   nodeName: ${nodeName}

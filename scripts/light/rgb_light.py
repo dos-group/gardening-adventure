@@ -1,5 +1,5 @@
-#import spidev
-#import ws2812
+# import spidev
+# import ws2812
 import board
 import neopixel
 import os
@@ -13,7 +13,7 @@ class LightRGB:
     def __init__(self, num_led=12):
         self.num_led = num_led
         self.pixels = neopixel.NeoPixel(board.D18, self.num_led)
-        self.mqtt_client = Subscriber(self.LIGHT_TOPIC + os.environ['DEVICE_NAME'], 'light' ,self.callback)
+        self.mqtt_client = Subscriber(self.LIGHT_TOPIC + os.environ['DEVICE_NAME'], 'light', self.callback)
 
     def callback(self, msg):
         print(msg['data'])

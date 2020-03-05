@@ -24,7 +24,7 @@ ldr_sensor () {
   1>&2 echo "Please enter label for the nodeselection"
   read nodeName
   node_exists
-  
+
   1>&2 echo "Please enter the mqtt broker IP"
   read brokerIP
   source /dev/stdin <<<"$(echo 'cat <<EOF >./ldr_sensor/final.yml'; cat ./ldr_sensor/ldr.yml; echo EOF;)"
@@ -52,7 +52,7 @@ dht_sensor () {
   1>&2 echo "Please enter the mqtt broker IP"
   read brokerIP
   source /dev/stdin <<<"$(echo 'cat <<EOF >./dht_sensor/final.yml'; cat ./dht_sensor/dht.yml; echo EOF;)"
-  kubectl apply -f  ./light/final.yml
+  kubectl apply -f  ./dht_sensor/final.yml
   rm ./dht_sensor/final.yml
 }
 

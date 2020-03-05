@@ -67,7 +67,7 @@ if __name__ == '__main__':
     sleep(camera_wakeup)
     
     while True:
-        for filename in camera.capture_continuous('img{timestamp:%Y-%m-%d-%H-%M-%S}.jpg'):
+        for filename in camera.capture_continuous(os.environ['DEVICE_NAME'] + '_img{timestamp:%Y-%m-%d-%H-%M-%S}.jpg'):
             camera.start_preview()
             sleep(camera_wakeup)
             print('image captured... %s' % filename)

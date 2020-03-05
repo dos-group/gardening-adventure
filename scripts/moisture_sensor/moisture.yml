@@ -23,4 +23,3 @@ spec:
     - name: tz-config
       hostPath:
         path: /usr/share/zoneinfo/Europe/Berlin
-
