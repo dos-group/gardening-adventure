@@ -112,7 +112,7 @@ config:
         qos: 2
         connection_timeout: "30s"
         topics:
-          - "sensors"
+          - "sensor/#"
         persistent_session: false
         data_format: "json"
         json_string_fields:
