@@ -1,3 +1,5 @@
+sudo modprobe batman-adv
+
 # Restart the interface configuration
 sudo ip addr flush bat0
 sudo ifconfig bat0 down
