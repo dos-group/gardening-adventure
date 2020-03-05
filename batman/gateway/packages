@@ -1,1 +1,1 @@
-batctl isc-dhcp-server
+batctl isc-dhcp-server wireless-tools iptables
