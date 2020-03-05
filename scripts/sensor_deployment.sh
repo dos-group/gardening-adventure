@@ -24,7 +24,7 @@ ldr_sensor () {
   1>&2 echo "Please enter label for the nodeselection"
   read nodeName
   node_exists
-
+  
   1>&2 echo "Please enter the mqtt broker IP"
   read brokerIP
   source /dev/stdin <<<"$(echo 'cat <<EOF >./ldr_sensor/final.yml'; cat ./ldr_sensor/ldr.yml; echo EOF;)"
@@ -106,26 +106,29 @@ case_func () {
 
   read option
   case "$option" in
-    0) 1>&2 echo "-0 deploy all devices "
-       all_sensor;;
-    1) 1>&2 echo "-1 deploy ldr sensor "
-       ldr_sensor;;
-    2) 1>&2 echo "-2 deploy the RGB light device "
-       rgb_light;;
-    3) 1>&2 echo "-3 deploy dht sensor "
-       dht_sensor;;
-    4) 1>&2 echo "-4 deploy moisture sensor "
-     moisture_sensor;;
-    5) 1>&2 echo "-5 deploy waterlevel sensor "
-       waterlevel_sensor;;
-    6) 1>&2 echo "-6 deploy camera sensor "
-       camera_sensor;;
+    0) 1>&2 echo "-0 deploy all devices " 
+       all_sensor;; 
+    1) 1>&2 echo "-1 deploy ldr sensor " 
+       ldr_sensor;; 
+    2) 1>&2 echo "-2 deploy the RGB light device " 
+       rgb_light;; 
+    3) 1>&2 echo "-3 deploy dht sensor " 
+       dht_sensor;; 
+    4) 1>&2 echo "-4 deploy moisture sensor " 
+     moisture_sensor;; 
+    5) 1>&2 echo "-5 deploy waterlevel sensor " 
+       waterlevel_sensor;; 
+    6) 1>&2 echo "-6 deploy camera sensor " 
+       camera_sensor;; 
     *) 1>&2 echo "Option $option not recognized"
-       1>&2 echo ""
+       1>&2 echo "" 
        case_func;;
 
   	esac
-
+   
   	shift
   }
 case_func
+
+
+
