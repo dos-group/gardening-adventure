@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: temphumdity
+  name: ${podName}
   labels:
-    app: temphumdity
+    app: ${podName}
 spec:
   containers:
-    - name: temp-humidity-container
+    - name: ${podName}-container
       image: p2w2/dht_sensor
       volumeMounts:
         - name: tz-config

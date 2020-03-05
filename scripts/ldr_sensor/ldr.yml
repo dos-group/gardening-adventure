@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: ldr
+  name: ${podName}
   labels:
-    app: ldr
+    app: ${podName}
 spec:
   containers:
-  - name: ldr-container
+  - name: ${podName}-container
     image: p2w2/ldr
     volumeMounts:
     - name: tz-config

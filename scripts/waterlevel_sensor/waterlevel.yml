@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: waterlevel
+  name: ${podName}
   labels:
-    app: waterlevel
+    app: ${podName}
 spec:
   containers:
-    - name: waterlevel-container
+    - name: ${podName}-container
       image: p2w2/waterlevel
       volumeMounts:
         - name: tz-config

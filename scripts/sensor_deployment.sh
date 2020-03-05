@@ -24,7 +24,10 @@ ldr_sensor () {
   1>&2 echo "Please enter label for the nodeselection"
   read nodeName
   node_exists
-  
+
+  1>&2 echo "Please enter name for the pod"
+  read podName
+
   1>&2 echo "Please enter the mqtt broker IP"
   read brokerIP
   source /dev/stdin <<<"$(echo 'cat <<EOF >./ldr_sensor/final.yml'; cat ./ldr_sensor/ldr.yml; echo EOF;)"
@@ -36,6 +39,9 @@ rgb_light () {
   1>&2 echo "Please enter node name for the nodeselection"
   read nodeName
   node_exists
+
+  1>&2 echo "Please enter name for the pod"
+  read podName
 
   1>&2 echo "Please enter the mqtt broker IP"
   read brokerIP
@@ -49,6 +55,9 @@ dht_sensor () {
   read nodeName
   node_exists
 
+  1>&2 echo "Please enter name for the pod"
+  read podName
+
   1>&2 echo "Please enter the mqtt broker IP"
   read brokerIP
   source /dev/stdin <<<"$(echo 'cat <<EOF >./dht_sensor/final.yml'; cat ./dht_sensor/dht.yml; echo EOF;)"
@@ -61,6 +70,9 @@ moisture_sensor () {
   read nodeName
   node_exists
 
+  1>&2 echo "Please enter name for the pod"
+  read podName
+
   1>&2 echo "Please enter the mqtt broker IP"
   read brokerIP
   source /dev/stdin <<<"$(echo 'cat <<EOF >./moisture_sensor/final.yml'; cat ./moisture_sensor/moisture.yml; echo EOF;)"
@@ -71,6 +83,9 @@ waterlevel_sensor () {
   1>&2 echo "Please enter node name for the nodeselection"
   read nodeName
   node_exists
+
+  1>&2 echo "Please enter name for the pod"
+  read podName
 
   1>&2 echo "Please enter the mqtt broker IP"
   read brokerIP
@@ -83,6 +98,9 @@ camera_sensor () {
   1>&2 echo "Please enter node name for the nodeselection"
   read nodeName
   node_exists
+
+  1>&2 echo "Please enter name for the pod"
+  read podName
 
   1>&2 echo "Please enter the mqtt broker IP"
   read brokerIP

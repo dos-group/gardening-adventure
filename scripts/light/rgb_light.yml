@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: light
+  name: ${podName}
   labels:
-    app: light
+    app: ${podName}
 spec:
   containers:
-    - name: light-container
+    - name: ${podName}-container
       image: p2w2/light
       volumeMounts:
         - name: tz-config

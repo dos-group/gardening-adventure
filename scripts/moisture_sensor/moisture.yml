@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: moisture
+  name: ${podName}
   labels:
-    app: moisture
+    app: ${podName}
 spec:
   containers:
-    - name: moisture-container
+    - name: ${podName}-container
       image: p2w2/moisture
       volumeMounts:
         - name: tz-config
