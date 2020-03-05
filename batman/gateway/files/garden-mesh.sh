@@ -25,3 +25,6 @@ sudo ifconfig bat0 up
 
 sudo service isc-dhcp-server start
 sudo systemctl enable isc-dhcp-server
+
+# K3S Installation
+curl -sfL https://get.k3s.io | K3S_URL=https://192.168.10.1:6443 K3S_TOKEN=K10db4367567ed68aa3d390f315265b24057ee2977f8ff0b93be41acbbcd898f124::server:06b8673f0c8780adfed8555d3d527708 sh -
