@@ -1,6 +1,5 @@
 import paho.mqtt.client as mqtt
 import json
-import getpass
 import os
 
 
@@ -9,7 +8,7 @@ import os
 
 class Subscriber:
 
-    def __init__(self, topic, callback, server_port=1883, server_host='localhost'):
+    def __init__(self, topic, actuator_type, callback, server_port=1883, server_host='localhost'):
 
         if 'SERVER_PORT' in os.environ:
             self.server_port = os.environ['SERVER_PORT']
@@ -23,14 +22,15 @@ class Subscriber:
         self.callback = callback
         print("Connect to", self.server_host, self.server_port, ' with topic ', self.topic)
 
-        self.mqtt_c = mqtt.Client(getpass.getuser())
+        self.mqtt_c = mqtt.Client(os.environ['DEVICE_NAME'] + '_' + actuator_type)
         self.connect()
-        self.mqtt_c.loop_forever()
+
+    #        self.mqtt_c.loop_forever()
 
     def connect(self):
         def on_connect(mqttc, userdata, flags, rc):
             if rc == 0:
-                print('successful connection ','subscribe topic: ', self.topic )
+                print('successful connection ', 'subscribe topic: ', self.topic)
                 self.mqtt_c.subscribe(self.topic, qos=2)
             else:
                 print('connection fail')
@@ -43,4 +43,4 @@ class Subscriber:
         self.mqtt_c.on_connect = on_connect
         self.mqtt_c.connect(self.server_host, self.server_port, 45)
         self.mqtt_c.on_message = on_message
-        self.mqtt_c.loop_start()
+        self.mqtt_c.loop_forever()

@@ -1,7 +1,6 @@
 import paho.mqtt.client as mqtt
 import json
 import time
-import getpass
 import os
 
 
@@ -10,7 +9,7 @@ import os
 
 class Publisher:
 
-    def __init__(self, topic, server_port=1883, server_host='localhost'):
+    def __init__(self, topic, sensor_type, server_port=1883, server_host='localhost'):
 
         if 'SERVER_PORT' in os.environ:
             self.server_port = os.environ['SERVER_PORT']
@@ -24,7 +23,7 @@ class Publisher:
 
         print("Connect to", self.server_host, self.server_port, " with topic ", self.topic)
 
-        self.mqtt_c = mqtt.Client(getpass.getuser())
+        self.mqtt_c = mqtt.Client(os.environ['DEVICE_NAME'] + '_' + sensor_type)
         self.connect()
 
     def connect(self):
@@ -32,7 +31,7 @@ class Publisher:
             print('Connected')
 
         def on_publish(mqttc, obj, mid):
-            print("published", mqttc, obj, mid)
+            print("published to: ", self.topic)
             pass
 
         self.mqtt_c.on_connect = on_connect
@@ -41,8 +40,7 @@ class Publisher:
         self.mqtt_c.loop_start()
 
     def publish_sensor_data(self, sensor, value):
-        device_id = getpass.getuser()
-        msg = '{"device_id": "' + device_id + '", "measurement": "' + sensor + '", "data": ' + str(
+        msg = '{"device_id": "' + os.environ['DEVICE_NAME'] + '", "measurement": "' + sensor + '", "data": ' + str(
             value) + ', "timestamp": ' + str(int(time.time())) + '}'
         print(msg)
         ret = self.mqtt_c.publish(self.topic, msg, qos=2)
