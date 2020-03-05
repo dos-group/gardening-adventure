@@ -102,8 +102,6 @@ camera_sensor () {
   1>&2 echo "Please enter name for the pod"
   read podName
 
-  1>&2 echo "Please enter the mqtt broker IP"
-  read brokerIP
   source /dev/stdin <<<"$(echo 'cat <<EOF >./camera_module/final.yml'; cat ./camera_module/camera_module.yml; echo EOF;)"
   kubectl apply -f  ./camera_module/final.yml
   rm ./camera_module/final.yml
