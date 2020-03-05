@@ -1,18 +1,25 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: luminence
+  name: ldr
   labels:
-    app: luminence 
+    app: ldr
 spec:
   containers:
-  - name: luminence-container
-    image: shrihari93/ldr_sensor
+  - name: ldr-container
+    image: p2w2/ldr
+    volumeMounts:
+    - name: tz-config
+      mountPath: /etc/localtime
     env:
     - name: SERVER_HOST
-      value: "10.43.131.239"
+      value: "${brokerIP}"
+    - name: "DEVICE_NAME"
+      value: "${nodeName}"
     securityContext:
       privileged: true
-
-  nodeSelector:
-    sensor: ldr
+  nodeName: ${nodeName}
+  volumes:
+    - name: tz-config
+      hostPath:
+        path: /usr/share/zoneinfo/Europe/Berlin

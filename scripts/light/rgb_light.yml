@@ -1,21 +1,21 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: temphumdity
+  name: light
   labels:
-    app: temphumdity
+    app: light
 spec:
   containers:
-    - name: temp-humidity-container
-      image: p2w2/dht_sensor
+    - name: light-container
+      image: p2w2/light
       volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
       env:
         - name: SERVER_HOST
           value: "${brokerIP}"
-            - name: "DEVICE_NAME"
-              value: "${nodeName}"
+        - name: "DEVICE_NAME"
+          value: "${nodeName}"
       securityContext:
         privileged: true
   nodeName: ${nodeName}

@@ -4,6 +4,7 @@ import time
 from mqtt_publisher import Publisher
 # Import SPI library (for hardware SPI) and MCP3008 library.
 import Adafruit_MCP3008
+import os
 
 
 class Moisture():
@@ -22,14 +23,14 @@ class Moisture():
         # Setup the switch pin
         # SWITCH = 20
         # GPIO.setup(SWITCH, GPIO.OUT)
-        self.mqtt_client = Publisher(self.TOPIC)
+        self.mqtt_client = Publisher(self.TOPIC + os.environ['DEVICE_NAME'], 'moisture')
         self.mcp = Adafruit_MCP3008.MCP3008(clk=Moisture.CLK, cs=Moisture.CS, miso=Moisture.MISO, mosi=Moisture.MOSI)
         self.collector()
 
     def read(self):
         #        GPIO.output(SWITCH, GPIO.HIGH)
         time.sleep(0.1)
-        value = float(self.mcp.read_adc(0))
+        value = float(self.mcp.read_adc(1))
         #        print("The soil moisture reading is currently at {:.2f}%").format(value / 1023 * 100)
         #        GPIO.output(SWITCH, GPIO.LOW)
         return value
@@ -44,6 +45,7 @@ class Moisture():
                 sleep(Moisture.DELAY_INTERVAL)
         except:
             GPIO.cleanup()
+
 
 if __name__ == '__main__':
     moisture = Moisture()

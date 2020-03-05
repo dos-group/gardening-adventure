@@ -1,6 +1,6 @@
 FROM balenalib/rpi-raspbian:latest
 
-ADD moisture/moisture.py /
+ADD moisture_sensor/moisture.py /
 ADD mqtt_publisher.py /
 
 RUN apt update
