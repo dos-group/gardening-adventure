@@ -7,7 +7,7 @@ metadata:
 spec:
   containers:
     - name: ${podName}-container
-      image: p2w2/dht_sensor
+      image: p2w2/dht
       volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
