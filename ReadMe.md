@@ -1,3 +1,4 @@
+
 Documentation for Urban Gardening
 
 # Table of Contents
@@ -20,30 +21,40 @@ Documentation for Urban Gardening
 - [Connecting Sensors](#connecting-sensors)
 
 # Introduction
+This project provides an infrastructure to implement a self sustaining smart garden. It uses state-of-the-art technologies to implement a variety of useful tools to monitor, alert and explore on the basis of the data.
+The core of our work is the implementation of a greenhouse which provides sensors and actuators controlled via cloud systems to provide an optimal environment for plants.
+
+In picture 1 we can see in the general overview the idea to connect multiple greenhouses via a wifi network mesh to a Cloud service. Whereby particular greenhouses can serves as a gateway and are directly connected to the cloud.
 ![Overview](./documentation/diagrams/concept_overview_1.png)
+
+The greenhouses themselves contain a variety of sensors and actuators, as shown in Figure 2. These sensors and actuators are connected via the GPIO connectors to an Raspberry pi.  The Raspberry pi gathers the sensor data and distributes this data via the above mentioned mesh network. The Pi also receives instructions for the connected actuators and executes them.![Overview](./documentation/diagrams/concept_overview_2.png)
+Figure 3 gives an overview about the Software implementation. In the lower part we see Multiple Pi's which implement the mesh network via [B.A.T.M.A.N](https://www.open-mesh.org/projects/open-mesh/wiki). B.A.T.M.A.N. (better approach to mobile ad-hoc networking) is a routing protocol for multi-hop ad-hoc mesh networks. The sensor & actuator logic is implemented via Python and containerized in [Docker](https://www.docker.com/). Each Raspberry is a Worker Node in a K3s cluster. The sensor communication is realized via [MQTT](http://mqtt.org/). In particular we use [Phao mqtt](https://www.eclipse.org/paho/) for pyhton on the Pi side and a Mosquitto MQTT Broker on the cloud side. 
 ![Overview](./documentation/diagrams/technical_overview.png)
-![Overview](./documentation/diagrams/concept_overview_2.png)
+
+The cloud environment  consists of four services. A [Mosquitto](https://mosquitto.org/man/mqtt-7.html) MQTT broker for the communication with the greenhouse instances. [Telegraf](https://www.influxdata.com/time-series-platform/telegraf/) which subscribes to the published topics by the greenhouse sensors and  saves the data in an [influxdb](https://www.influxdata.com/) database. And lastly [Grafana](https://grafana.com/) which is used for data visualization and alerting.   
 ## Goal
 
 # Prerequisites & Components
+For the creation of the project we used a desktop computer as cloud environment(Master node) and raspberry pi's as worker nodes
 
-## Components
+### Components listed per greenhouse.
 
-Components listed per greenhouse.
-
-| Component                 | Description                   | Quantity |
-| ------------------------- | ----------------------------- | :------: |
-| Raspberry Pi 3B / 4B      | Content Cell                  |    4     |
-| MicroSD Card 32GB         | Content Cell                  |    4     |
-| DHT22 Sensor              | Temperature & Humidity Sensor |    4     |
-| Water Level Sensor        | Analog Water Level Sensor     |    4     |
-| Soil Moisture Sensor      | Analog Soil Moisture Sensor   |    4     |
-| LDR                       | Light Dependent Resistor      |    4     |
-| MCP3008                   | 8 Channel 10-bit ADC          |    4     |
-| Breadboard                | -                             |    4     |
-| Male to Male Connectors   | -                             |    30    |
-| Male to Female Connectors | -                             |   100    |
-| 5v Power Supply           | 2.5A Power Supply recommended |    4     |
+| Component                 | Description                   | 
+| ------------------------- | ----------------------------- |
+| Raspberry Pi 3B / 4       | Content Cell                  | 
+| MicroSD Card 32GB         | Content Cell                  |
+| DHT22 Sensor              | Temperature & Humidity Sensor |
+| Water Level Sensor        | Analog Water Level Sensor     |
+| Soil Moisture Sensor      | Analog Soil Moisture Sensor   |
+| LDR                       | Light Dependent Resistor      |
+| MCP3008                   | 8 Channel 10-bit ADC          |
+| Breadboard                | -                             |
+| Male to Male Connectors   | -                             |
+| Male to Female Connectors | -                             | 
+| 5v Power Supply           | 2.5A Power Supply recommended | 
+| 5v Waterpump              | Water pump                    |
+| RGB LED                   | NeoPixel Ring - 12 x RGB LED  |
+| Jumper-Cabel              | 5v power supply for LED       | 
 
 ## Initial Setup
 
@@ -70,10 +81,10 @@ raspi-config
 - note down IP address
 - disconnect monitor and ethernet, verify connectivity on Wireless and ssh access
 
-## setting up Kubernetes
+## Setting up Kubernetes
+[K3s](https://k3s.io/) is used for the project. K3s is a lightweight Kubernetes built for IoT & Edge computing. It perfect to for running on something as small as a Raspberry Pi. 
 
 ### Master node setup
-
 ### worker node setup
 
 ## Setting up B.A.T.M.A.N
@@ -111,6 +122,7 @@ Now, Run the container from the image
 ```
 
 ## Testing Kubernetes
+## Setting up the Cloud Environment
 
 # Connecting Sensors
 
