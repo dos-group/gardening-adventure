@@ -1,4 +1,5 @@
 
+
 Documentation for Urban Gardening
 
 # Table of Contents
@@ -123,8 +124,16 @@ Now, Run the container from the image
 ```
 
 ## Testing Kubernetes
-## Setting up the Cloud Environment
+# Setting up the Cloud Environment
+This chapter describes the implementation of the Cloud services. In detail the installation of Grafana, Influxdb, Mosquitto MQTT Broker and Telegraf.
 
-# Connecting Sensors
+We use for all the cloud service installations [Helm](https://helm.sh) scripts. For the installation of Helm, please refer to the [documentation](https://helm.sh/docs/intro/quickstart/).
 
+# Setting up the Greenhouse Environment
+This chapter describes the installation of a new smart greenhouse.
+The installation includes the hardware and the software configuration of the sensors/actuators and the Pi. 
+## Connecting Sensors
+Figure 4 shows the wiring of the sensors with the Raspberry Pi. Please note that an external 5V power supply is required when using several sensors and actuators. This is especially true if you use an LED light or a water pump.
 ![Wiring Diagram](./documentation/diagrams/wiring&#32;diagram/Wiring&#32;Diagram_bb.png)
+## Start Sensor and Actuators
+If all required sensors are wired you can continue with the software installation. The installation of the desired devices is happening via a shell script. For that it is required that K3s is running on the Pi controlling the sensors and the IP address for the MQTT Broker is known.
