@@ -69,6 +69,8 @@ For the creation of the project we used a desktop computer as cloud environment(
   - [ChromeOS](https://www.raspberrypi.org/documentation/installation/installing-images/chromeos.md)
 
 # Installation & Setup
+This chapter describes the whole installation from the build of the docker and Rasbian images with Kubernetes & B.A.T.M.A.N.
+ As well as the hardware Sensor depolyment and the Software Cloud & Sensor deployment.
 ## Docker Sensor Images
 Each sensor has its own docker Image. We use [balenalib raspbian] (https://hub.docker.com/r/balenalib/rpi-raspbian) Images which is optimized for use in IoT Devices. Use the -f option in the scripts directory to make sure Docker finds all the files it needs.
 Example to build the dht sensor:
