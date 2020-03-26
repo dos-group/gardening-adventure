@@ -131,18 +131,18 @@ Now, Run the container from the image
   docker run --network=host --privileged -d -it node-img /bin/bash gardening-adventure/batman/node/garden-mesh.sh
 ```
 
-## Testing Kubernetes
-# Setting up the Cloud Environment
+### Testing Kubernetes
+## Setting up the Cloud Environment
 This chapter describes the implementation of the Cloud services. In detail the installation of Grafana, Influxdb, Mosquitto MQTT Broker and Telegraf.
 
 We use for all the cloud service installations [Helm](https://helm.sh) scripts. For the installation of Helm, please refer to the [documentation](https://helm.sh/docs/intro/quickstart/).
-## Deployment
+### Deployment
 To start the services you can run the script in `gardening-adventure/cloud_garden/deployment/cloud_deployment.sh` This will start Grafana, Influxdb, Mosquitto MQTT Broker and Telegraf via helm. 
-## Grafana Charts
-## Grafana Alerts
+### Grafana Charts
+### Grafana Alerts
 We used [Grafana's Alerts](https://grafana.com/docs/grafana/latest/alerting/rules/) to receive [notifications](https://grafana.com/docs/grafana/latest/alerting/notifications/) when, for example, humidity drops below a certain level.
 As an example we show here to configure an Alert sent to telegram. For more options please have a look at the Grafana's Alert documentation.
-### Create a Telegram Altert
+#### Create a Telegram Altert
 1. Created a bot via @BotFather, and get an API token in telegram
 2. Create new Chat Group in Telegram App, for example: “Super Dooper Alert Group” with people who need to be alerted.
 3. Invite your bot to this group
@@ -164,13 +164,13 @@ This should return an JSON object, you need to find key “chat” like this one
 17. Select the desired Graph
 18. Click Alarm icon
 19. Click "Create Alert"
-# Setting up the Greenhouse Environment
+## Setting up the Greenhouse Environment
 
 This chapter describes the installation of a new smart greenhouse.
 The installation includes the hardware and the software configuration of the sensors/actuators and the Pi. 
-## Connecting Sensors
+### Connecting Sensors
 Figure 4 shows the wiring of the sensors with the Raspberry Pi. Please note that an external 5V power supply is required when using several sensors and actuators. This is especially true if you use an LED light or a water pump.
 ![Wiring Diagram](./documentation/diagrams/wiring&#32;diagram/Wiring&#32;Diagram_bb.png)
-## Start Sensor and Actuators
+### Start Sensor and Actuators
 If all required sensors are wired you can continue with the software installation. The installation of the desired devices is happening via a shell script. For that it is required that K3s is running on the Pi controlling the sensors and the IP address for the MQTT Broker is known.
 To start the Sensors run the  ```gardening-adventure/scripts/sensor_deployment.sh``` script in an environment with [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/#verifying-kubectl-configuration) configured.
