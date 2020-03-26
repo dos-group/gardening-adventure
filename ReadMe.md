@@ -1,5 +1,6 @@
 
 
+
 Documentation for Urban Gardening
 
 # Table of Contents
@@ -68,6 +69,11 @@ For the creation of the project we used a desktop computer as cloud environment(
   - [ChromeOS](https://www.raspberrypi.org/documentation/installation/installing-images/chromeos.md)
 
 # Installation & Setup
+## Docker Sensor Images
+Each sensor has its own docker Image. We use [balenalib raspbian] (https://hub.docker.com/r/balenalib/rpi-raspbian) Images which is optimized for use in IoT Devices. Use the -f option in the scripts directory to make sure Docker finds all the files it needs.
+Example to build the dht sensor:
+
+       .../gardening-adventure/scripts$ docker build -f dht_sensor/Dockerfile -t dht .
 
 ## Preliminary setup
 
@@ -128,8 +134,36 @@ Now, Run the container from the image
 This chapter describes the implementation of the Cloud services. In detail the installation of Grafana, Influxdb, Mosquitto MQTT Broker and Telegraf.
 
 We use for all the cloud service installations [Helm](https://helm.sh) scripts. For the installation of Helm, please refer to the [documentation](https://helm.sh/docs/intro/quickstart/).
-
+## Deployment
+To start the services you can run the script in `gardening-adventure/cloud_garden/deployment/cloud_deployment.sh` This will start Grafana, Influxdb, Mosquitto MQTT Broker and Telegraf via helm. 
+## Grafana Charts
+## Grafana Alerts
+We used [Grafana's Alerts](https://grafana.com/docs/grafana/latest/alerting/rules/) to receive [notifications](https://grafana.com/docs/grafana/latest/alerting/notifications/) when, for example, humidity drops below a certain level.
+As an example we show here to configure an Alert sent to telegram. For more options please have a look at the Grafana's Alert documentation.
+### Create a Telegram Altert
+1. Created a bot via @BotFather, and get an API token in telegram
+2. Create new Chat Group in Telegram App, for example: “Super Dooper Alert Group” with people who need to be alerted.
+3. Invite your bot to this group
+4. Type at least one message in that group,  **this is very important**
+5. Use cURL or just place this on any Browsers Address Bar: `https://api.telegram.org/bot<TOKEN>/getUpdates`
+This should return an JSON object, you need to find key “chat” like this one:  
+`"chat":{"id":-456343576,"title":"Super Dooper Alert Group","type":"group","all_members_are_administrators":true}`
+6. Login to grafana
+7. Click to the left Bell icon
+8.  Add notification channel
+9. Select Telegram
+10. Enable/disable settings you preger
+11. Put Telegram API token to he fiel
+12. Add chat ID (it starts with -, and that needs too)
+13. Click Test notification
+14. Save it.
+15. Create a Rule in the moister Graph panel ![panel](https://grafana.com/static/img/docs/v4/drag_handles_gif.gif)
+16. Go to dashboard 
+17. Select the desired Graph
+18. Click Alarm icon
+19. Click "Create Alert"
 # Setting up the Greenhouse Environment
+
 This chapter describes the installation of a new smart greenhouse.
 The installation includes the hardware and the software configuration of the sensors/actuators and the Pi. 
 ## Connecting Sensors
@@ -137,3 +171,4 @@ Figure 4 shows the wiring of the sensors with the Raspberry Pi. Please note that
 ![Wiring Diagram](./documentation/diagrams/wiring&#32;diagram/Wiring&#32;Diagram_bb.png)
 ## Start Sensor and Actuators
 If all required sensors are wired you can continue with the software installation. The installation of the desired devices is happening via a shell script. For that it is required that K3s is running on the Pi controlling the sensors and the IP address for the MQTT Broker is known.
+To start the Sensors run the  ```gardening-adventure/scripts/sensor_deployment.sh``` script in an environment with [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/#verifying-kubectl-configuration) configured.
