@@ -1,6 +1,7 @@
 
 
 
+
 Documentation for Urban Gardening
 
 # Table of Contents
@@ -136,13 +137,19 @@ Now, Run the container from the image
 This chapter describes the implementation of the Cloud services. In detail the installation of Grafana, Influxdb, Mosquitto MQTT Broker and Telegraf.
 
 We use for all the cloud service installations [Helm](https://helm.sh) scripts. For the installation of Helm, please refer to the [documentation](https://helm.sh/docs/intro/quickstart/).
-### Deployment
-To start the services you can run the script in `gardening-adventure/cloud_garden/deployment/cloud_deployment.sh` This will start Grafana, Influxdb, Mosquitto MQTT Broker and Telegraf via helm. 
-### Grafana Charts
-### Grafana Alerts
+### Helm Deployment
+First add the Mosquitto Broker helom chart via: ` helm repo add smizy https://smizy.github.io/charts`
+To start the services you can run the script in `gardening-adventure/cloud_garden/deployment/cloud_deployment.sh` This will start [Grafana](https://github.com/helm/charts/tree/master/stable/grafana), [Influxdb](https://github.com/helm/charts/tree/master/stable/influxdb), [Mosquitto MQTT Broker](https://github.com/smizy/charts/tree/master/mosquitto) and [Telegraf](https://github.com/helm/charts/tree/master/stable/telegraf) via helm. 
+**Notice**: This will start the services without any node selection. For that edit the corresponding settings in the yaml files.  For adding a label to a node use the following command : `kubectl label nodes <nodename> <key>=<value> --overwrite`
+### Post Deployment Steps
+#### Connecting Grafana with Influxdb
+Login to the grafana UI.  The IP is shown at the deployment or run: 
+To connect grafana with influxDB 
+#### Grafana Charts
+#### Grafana Alerts
 We used [Grafana's Alerts](https://grafana.com/docs/grafana/latest/alerting/rules/) to receive [notifications](https://grafana.com/docs/grafana/latest/alerting/notifications/) when, for example, humidity drops below a certain level.
 As an example we show here to configure an Alert sent to telegram. For more options please have a look at the Grafana's Alert documentation.
-#### Create a Telegram Altert
+##### Create a Telegram Altert
 1. Created a bot via @BotFather, and get an API token in telegram
 2. Create new Chat Group in Telegram App, for example: “Super Dooper Alert Group” with people who need to be alerted.
 3. Invite your bot to this group
@@ -173,4 +180,4 @@ Figure 4 shows the wiring of the sensors with the Raspberry Pi. Please note that
 ![Wiring Diagram](./documentation/diagrams/wiring&#32;diagram/Wiring&#32;Diagram_bb.png)
 ### Start Sensor and Actuators
 If all required sensors are wired you can continue with the software installation. The installation of the desired devices is happening via a shell script. For that it is required that K3s is running on the Pi controlling the sensors and the IP address for the MQTT Broker is known.
-To start the Sensors run the  ```gardening-adventure/scripts/sensor_deployment.sh``` script in an environment with [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/#verifying-kubectl-configuration) configured.
+To start the Sensors run the  ```gardening-adventure/scripts/sensor_deployment.sh``` script in an environment with [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/#verifying-kubectl-configuration) configured. After the deployment the sensors immediately start sending data to the MQTT Broker
