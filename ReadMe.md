@@ -83,7 +83,7 @@ For the creation of the project we used a desktop computer as cloud environment(
 This chapter describes the whole installation from the build of the docker and Rasbian images with Kubernetes & B.A.T.M.A.N.
  As well as the hardware Sensor depolyment and the Software Cloud & Sensor deployment.
 ## Docker Sensor Images
-Each sensor has its own docker Image. We use [balenalib raspbian] (https://hub.docker.com/r/balenalib/rpi-raspbian) Images which is optimized for use in IoT Devices. Use the -f option in the scripts directory to make sure Docker finds all the files it needs.
+Each sensor has its own docker Image. We use [Balenalib Raspbian](https://hub.docker.com/r/balenalib/rpi-raspbian) Images which is optimized for use in IoT Devices. Use the -f option in the scripts directory to make sure Docker finds all the files it needs.
 Example to build the dht sensor:
 
        .../gardening-adventure/scripts$ docker build -f dht_sensor/Dockerfile -t dht .
@@ -103,10 +103,12 @@ raspi-config
 - disconnect monitor and ethernet, verify connectivity on Wireless and ssh access
 
 ## Setting up Kubernetes
-
+PLEASE REMOVE IF MENTIONED IN OTHER SECTION
 
 ### Master node setup
+PLEASE REMOVE IF MENTIONED IN OTHER SECTION
 ### worker node setup
+PLEASE REMOVE IF MENTIONED IN OTHER SECTION
 
 ## Setting up B.A.T.M.A.N
 
@@ -143,10 +145,13 @@ Now, Run the container from the image
 ```
 
 ### Testing Kubernetes
+PLEASE REMOVE IF MENTIONED IN OTHER SECTION
+
 ## Setting up the Cloud Environment
 This chapter describes the implementation of the Cloud services. In detail the installation of Grafana, Influxdb, Mosquitto MQTT Broker and Telegraf.
 
 We use for all the cloud service installations [Helm](https://helm.sh) scripts. For the installation of Helm, please refer to the [documentation](https://helm.sh/docs/intro/quickstart/).
+
 ### Helm Deployment
 First add the Mosquitto Broker helom chart via: ` helm repo add smizy https://smizy.github.io/charts`
 To start the services you can run the script in `gardening-adventure/cloud_garden/deployment/cloud_deployment.sh` This will start [Grafana](https://github.com/helm/charts/tree/master/stable/grafana), [Influxdb](https://github.com/helm/charts/tree/master/stable/influxdb), [Mosquitto MQTT Broker](https://github.com/smizy/charts/tree/master/mosquitto) and [Telegraf](https://github.com/helm/charts/tree/master/stable/telegraf) via helm. 
@@ -214,7 +219,6 @@ If no options under this section is set in the camera_module.yml file, the camer
 | iso        | ISO Sensitivity Settings            | 100 - 800                                                    | 100                                 |
 
 ![Camera Configuration](./documentation/diagrams/camera-yml.png)
-
 
 ### Start Sensor and Actuators
 If all required sensors are wired you can continue with the software installation. The installation of the desired devices is happening via a shell script. For that it is required that K3s is running on the Pi controlling the sensors and the IP address for the MQTT Broker is known.
