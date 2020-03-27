@@ -152,16 +152,23 @@ This chapter describes the implementation of the Cloud services. In detail the i
 
 We use for all the cloud service installations [Helm](https://helm.sh) scripts. For the installation of Helm, please refer to the [documentation](https://helm.sh/docs/intro/quickstart/).
 
+**Note:** We used for all services the standard username: "admin" and password: "dspj2020"
+
 ### Helm Deployment
 First add the Mosquitto Broker helom chart via: ` helm repo add smizy https://smizy.github.io/charts`
 To start the services you can run the script in `gardening-adventure/cloud_garden/deployment/cloud_deployment.sh` This will start [Grafana](https://github.com/helm/charts/tree/master/stable/grafana), [Influxdb](https://github.com/helm/charts/tree/master/stable/influxdb), [Mosquitto MQTT Broker](https://github.com/smizy/charts/tree/master/mosquitto) and [Telegraf](https://github.com/helm/charts/tree/master/stable/telegraf) via helm. 
 **Notice**: This will start the services without any node selection. For that edit the corresponding settings in the yaml files.  For adding a label to a node use the following command : `kubectl label nodes <nodename> <key>=<value> --overwrite`
 ### Post Deployment Steps
 #### Connecting Grafana with Influxdb
-Login to the grafana UI.  The IP is shown at the deployment or run: 
-To connect grafana with influxDB 
-
-THIS SECTION IS INCOMPLETE
+Login to the grafana UI. Use `kubectl get svc` to get the IP's and Port of all services.
+1. Login to the Grafana Dashboard
+2. Click the gear wheel Icon on the left site and  select "Data Sources"
+3. click "Add data source"
+4. Choose Influxdb
+5. Add the influxDB url `hhtp://<Influxdb IP>:8086`
+6. Use `garden` as database
+7. The default influxdb user is `admin` and password is `dspj2020`
+8. Click `Save and Test`
 
 #### Grafana Charts
 After the datasource has been added the next step is to add the dashboard which displays the data from the datasource.
