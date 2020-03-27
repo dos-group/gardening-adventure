@@ -85,7 +85,7 @@ Specify the required options for the above command(type, hostname, k3s url, k3s 
 
 * The above command downloads the base image of raspbian STRETCH. This base image can be modified as per the needs by changing the base iamge url in the file `build-raspbian`.
 * Further, the command creates two installation scripts under the root user as part of each image(gateway/node).
-* Root user is created with the passworkd `raspberry`. This can also be modified in the file `build-batman-node.sh`
+* Root user is created with the password `raspberry`. This can also be modified in the file `build-batman-node.sh`
 
 # Installation & Setup
 
@@ -99,9 +99,9 @@ First setup the gateway Pi by connecting it to ethernet and inserting the SD car
 
 2. k3s_installation.sh
 
-Running the first script, brings up the B.A.T.M.A.N inteface for mesh network along with the Pi configured as a gateway. It starts a dhcp server for the inteface `bat0`.
+Running the first script, brings up the B.A.T.M.A.N inteface for mesh network along with the Pi configured as a gateway. It starts a dhcp server for the inteface `bat0` and enables a custom service called `port-forwarding.service` that forwards packets across batman and ethernet interface.
 
-Running the second script, installs K3s and add the Pi as a worker to a K3s cluster. If the k3s master is not part of the same network as gateway and belongs to public network, then k3s installation should be done via VPN. This is currently out of the scope of this repository. Refer [OpenVPN](https://openvpn.net/) or [Wiregaurd](https://www.wireguard.com/) for more information about setting up VPN.
+Running the second script, installs K3s and adds the Pi as a worker to a K3s cluster. If the k3s master is not part of the same network as gateway and belongs to the public network, then k3s installation should be done via VPN. This is currently out of the scope of this repository. Refer [OpenVPN](https://openvpn.net/) or [Wiregaurd](https://www.wireguard.com/) for more information about setting up VPN.
 
 ## Mesh Node Setup
 
@@ -113,9 +113,7 @@ Setup the node by inserting the SD card that contains the raspbian OS for the no
 
 3. Before running the K3s installation script, make sure the k3s master can direct packets to the node using `ping` command. If the packets are lost, then you need to add necessary route in the master using the command `ip`.
 
-Eg:
-    ```
-       ip route add 172.27.0.0/24 via 192.168.10.74 dev eth0```
+Eg: ``` ip route add 172.27.0.0/24 via 192.168.10.74 dev eth0 ```
 
 ## Docker Sensor Images
 
