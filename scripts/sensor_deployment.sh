@@ -17,6 +17,7 @@ all_sensor () {
   dht_sensor
   moisture_sensor
   waterlevel_sensor
+  camera_sensor
 }
 
 ldr_sensor () {
@@ -75,8 +76,11 @@ camera_sensor () {
   read podName
 
   source /dev/stdin <<<"$(echo 'cat <<EOF >./camera_module/final.yml'; cat ./camera_module/camera_module.yml; echo EOF;)"
+  source /dev/stdin <<<"$(echo 'cat <<EOF >./camera_module/final_pvc.yml'; cat ./camera_module/pvc.yml; echo EOF;)"
+  kubectl apply -f  ./camera_module/final_pvc.yml
   kubectl apply -f  ./camera_module/final.yml
   rm ./camera_module/final.yml
+  rm ./camera_module/final_pvc.yml
   case_func
 }
 
