@@ -9,7 +9,7 @@ Documentation for Urban Gardening
 - [Table of Contents](#table-of-contents)
 - [Introduction](#introduction)
 - [Prerequisites & Components](#prerequisites--components)
-  - [Components listed per greenhouse.](#components-listed-per-greenhouse)
+  - [Components listed per greenhouse](#components-listed-per-greenhouse)
 - [Initial Setup](#initial-setup)
 - [Installation & Setup](#installation--setup)
   - [Mesh Gateway Setup](#mesh-gateway-setup)
@@ -23,7 +23,7 @@ Documentation for Urban Gardening
         - [Create a Telegram Altert](#create-a-telegram-altert)
   - [Setting up the Greenhouse Environment](#setting-up-the-greenhouse-environment)
     - [Connecting Sensors](#connecting-sensors)
-    - [Docker Sensor Images](#docker-sensor-images)
+  - [Docker Sensor Images](#docker-sensor-images)
     - [Camera Configuration Options](#camera-configuration-options)
     - [Start Sensor and Actuators](#start-sensor-and-actuators)
 - [Reference](#reference)
@@ -91,6 +91,12 @@ Specify the required options for the above command(type, hostname, k3s url, k3s 
 
 Using Raspberry Pi Imager, burn the created image onto a SD card. The created image could be found under the folder `images` after running above script.
 
+- Writing the Raspbian Image to the SD Card
+  - [Windows](https://www.raspberrypi.org/documentation/installation/installing-images/windows.md)
+  - [Linux](https://www.raspberrypi.org/documentation/installation/installing-images/linux.md)
+  - [MacOS](https://www.raspberrypi.org/documentation/installation/installing-images/mac.md)
+  - [ChromeOS](https://www.raspberrypi.org/documentation/installation/installing-images/chromeos.md)
+  - 
 ## Mesh Gateway Setup
 
 First setup the gateway Pi by connecting it to ethernet and inserting the SD card that contains the raspbian OS for gateway. Under the root user following scripts can be found:
