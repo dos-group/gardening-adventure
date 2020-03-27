@@ -53,25 +53,25 @@ case $TYPE in
         chroot "${CHROOT}" apt-get install -y isc-dhcp-server
 
         # Set network configurations for BATMAN
-        cat .batman/gateway/wlan0 > "${CHROOT}/etc/network/interfaces.d/wlan0"
-        cat .batman/gateway/bat0 > "${CHROOT}/etc/network/interfaces.d/bat0"
+        cat ./batman/gateway/wlan0 > "${CHROOT}/etc/network/interfaces.d/wlan0"
+        cat ./batman/gateway/bat0 > "${CHROOT}/etc/network/interfaces.d/bat0"
 
         # Set DHCP Server Configuration
-        cat .batman/gateway/dhcpd.conf > "${CHROOT}/etc/dhcp/dhcpd.conf"
-        cat .batman/gateway/isc-dhcp-server > "${CHROOT}/etc/default/isc-dhcp-server"
+        cat ./batman/gateway/dhcpd.conf > "${CHROOT}/etc/dhcp/dhcpd.conf"
+        cat ./batman/gateway/isc-dhcp-server > "${CHROOT}/etc/default/isc-dhcp-server"
 
         # Add configuration script
-        cat .batman/gateway/smart-garden-mesh.sh > "${CHROOT}/root/smart-garden-mesh.sh"
-        cat .batman/gateway/port-forwarding.sh > "${CHROOT}/root/port-forwarding.sh"
+        cat ./batman/gateway/smart-garden-mesh.sh > "${CHROOT}/root/smart-garden-mesh.sh"
+        cat ./batman/gateway/port-forwarding.sh > "${CHROOT}/root/port-forwarding.sh"
         chroot "${CHROOT}" /bin/bash -c "chmod +755 /root/port-forwarding.sh"
         cat ./gateway/port-forwarding.service > "${CHROOT}/etc/systemd/system/port-forwarding.service";;
     node)
         # Set network configurations for BATMAN
-        cat .batman/node/wlan0 > "${CHROOT}/etc/network/interfaces.d/wlan0"
-        cat .batman/node/bat0 > "${CHROOT}/etc/network/interfaces.d/bat0"
+        cat ./batman/node/wlan0 > "${CHROOT}/etc/network/interfaces.d/wlan0"
+        cat ./batman/node/bat0 > "${CHROOT}/etc/network/interfaces.d/bat0"
 
         # Add configuration script
-        cat .batman/node/smart-garden-mesh.sh > "${CHROOT}/root/smart-garden-mesh.sh";; 
+        cat ./batman/node/smart-garden-mesh.sh > "${CHROOT}/root/smart-garden-mesh.sh";;
     *)
 esac
 
