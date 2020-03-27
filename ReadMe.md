@@ -161,8 +161,8 @@ THIS SECTION IS INCOMPLETE
 After the datasource has been added the next step is to add the dashboard which displays the data from the datasource.
 * To create a Grafana dashboard click on `New dashboard`(Create -> New Dashboard -> Graph). 
 * Click on Panel Title -> Edit. A new window with the graph will open up. Here we select the metric we would want to display in the graph. I will use the Temperature as an example.
-* Click Add Query. Grafana creates a basic graph panel with the Random Walk scenario.
-Save your dashboard. Click the Save dashboard icon in the top corner of the screen.
+* Pick the data source that was defined earlier in the data source field. Tip: This should be influxdb datasource.
+* edit the query as follows -> in the `FROM` line, select the sensor name in the second dropdown. This will be the sensor that the graph will depict values from. In the `SELECT` line, pick the appropriate field, for example `temperature`. Pick the desired grouping time interval on line 3 and save the graph by clicking the save icon on the top right hand side.  
 ![Dashboard Query](./documentation/diagrams/grafana-query.png)
 
 #### Grafana Alerts
