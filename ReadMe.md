@@ -114,9 +114,8 @@ Setup the node by inserting the SD card that contains the raspbian OS for the no
 3. Before running the K3s installation script, make sure the k3s master can direct packets to the node using `ping` command. If the packets are lost, then you need to add necessary route in the master using the command `ip`.
 
 Eg:
-    ```bash
-       ip route add 172.27.0.0/24 via 192.168.10.74 dev eth0
-  ```
+    ```
+       ip route add 172.27.0.0/24 via 192.168.10.74 dev eth0```
 
 ## Docker Sensor Images
 
