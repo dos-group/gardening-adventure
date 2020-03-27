@@ -52,22 +52,22 @@ For the creation of the project we used a desktop computer as cloud environment(
 
 ### Components listed per greenhouse.
 
-| Component                 | Description                   |
-| ------------------------- | ----------------------------- |
-| Raspberry Pi 3B / 4       | Content Cell                  |
-| MicroSD Card 32GB         | Content Cell                  |
-| DHT22 Sensor              | Temperature & Humidity Sensor |
-| Water Level Sensor        | Analog Water Level Sensor     |
-| Soil Moisture Sensor      | Analog Soil Moisture Sensor   |
-| LDR                       | Light Dependent Resistor      |
-| MCP3008                   | 8 Channel 10-bit ADC          |
-| Breadboard                | -                             |
-| Male to Male Connectors   | -                             |
-| Male to Female Connectors | -                             |
-| 5v Power Supply           | 2.5A Power Supply recommended |
-| 5v Waterpump              | Water pump                    |
-| RGB LED                   | NeoPixel Ring - 12 x RGB LED  |
-| Jumper-Cabel              | 5v power supply for LED       |
+| Component                 | Description                                                  |
+| ------------------------- | ------------------------------------------------------------ |
+| Raspberry Pi 3B / 4       | -                                                            |
+| MicroSD Card 32GB         | -                                                            |
+| DHT22 Sensor              | Temperature & Humidity Sensor                                |
+| Water Level Sensor        | Analog Water Level Sensor                                    |
+| Soil Moisture Sensor      | Analog Soil Moisture Sensor                                  |
+| LDR                       | Light Dependent Resistor                                     |
+| MCP3008                   | 8 Channel 10-bit ADC                                         |
+| Breadboard                | 1 Piece                                                      |
+| Male to Male Connectors   | 100 Pieces                                                   |
+| Male to Female Connectors | 100 Pieces                                                   |
+| 5v Power Supply           | Power supply for Raspberry Pi. 2.5A Power Supply recommended |
+| 5v Waterpump              | Water pump (Not implemented)                                 |
+| RGB LED                   | NeoPixel Ring - 12 x RGB LED                                 |
+| Jumper-Cabel              | 5v power supply for LED                                      |
 
 ## Initial Setup
 
@@ -154,7 +154,14 @@ To start the services you can run the script in `gardening-adventure/cloud_garde
 #### Connecting Grafana with Influxdb
 Login to the grafana UI.  The IP is shown at the deployment or run: 
 To connect grafana with influxDB 
+
+THIS SECTION IS INCOMPLETE
+
 #### Grafana Charts
+After the datasource has been added the next step is to add the dashboard which displays the data from the datasource.
+To create a Grafana dashboard click on `New dashboard`(Create -> New Dashboard -> Graph). Click on Panel Title -> Edit. A new window with the graph will open up. Here we select the metric we would want to display in the graph. I will use the Temperature as an example.
+Click Add Query. Grafana creates a basic graph panel with the Random Walk scenario.
+Save your dashboard. Click the Save dashboard icon in the top corner of the screen.
 #### Grafana Alerts
 We used [Grafana's Alerts](https://grafana.com/docs/grafana/latest/alerting/rules/) to receive [notifications](https://grafana.com/docs/grafana/latest/alerting/notifications/) when, for example, humidity drops below a certain level.
 As an example we show here to configure an Alert sent to telegram. For more options please have a look at the Grafana's Alert documentation.
