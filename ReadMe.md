@@ -69,7 +69,7 @@ For the creation of the project we used a desktop computer as cloud environment(
 
 # Initial Setup
 
-Custom raspbian OS creation is part of this repository which installs necessary packages and configurations for setting up `gateway` and `node` Pis respectively. The configuration files are listed under the folder `batman`. These files could further be modified according the needs of the project. Also the image creation, requires Ubuntu/Debian OS.
+Custom raspbian OS creation is part of this repository which installs necessary packages and configurations for setting up `gateway` and `node` Pis respectively. The configuration files are listed under the folder `batman`. These files could further be modified according to the needs of the project. Also the image creation, requires Ubuntu/Debian OS.
 
 To create an image:
 
@@ -81,7 +81,11 @@ To create an image:
         ./build-batman-node.sh -t [gateway|node] -n [hostname] -u [k3s_url] -k [k3s_token] -d [dns_ip]
   ```
 
-Specify the required options for the above command(type, hostname, k3s url, k3s token). Mention your dns_ip when creating an image for `node`(eg: 8.8.8.8). The above command downloads the base image of raspbian STRETCH. This can be modified as per you needs by changing the necessary values in the file build-raspbian. Further the command creates two installation scripts under the root user as part of each image(gateway/node).
+Specify the required options for the above command(type, hostname, k3s url, k3s token). Mention your dns_ip when creating an image for `node`(eg: 8.8.8.8).
+
+* The above command downloads the base image of raspbian STRETCH. This base image can be modified as per the needs by changing the base iamge url in the file `build-raspbian`.
+* Further, the command creates two installation scripts under the root user as part of each image(gateway/node).
+* Root user is created with the passworkd `raspberry`. This can also be modified in the file `build-batman-node.sh`
 
 # Installation & Setup
 
@@ -105,12 +109,14 @@ Setup the node by inserting the SD card that contains the raspbian OS for the no
 
 1. First run smart-garden-mesh.sh to setup the B.A.T.M.A.N
 
-2. Wait until the interface `bat0` gets an ip address from DHCP server within the range 172.27.0.100 - 172.27.0.200. This may take a time of 20-30s.
+2. Wait until the interface `bat0` gets an ip address from DHCP server within the range `172.27.0.100 - 172.27.0.200`. This may take a time of 20-30s.
 
 3. Before running the K3s installation script, make sure the k3s master can direct packets to the node using `ping` command. If the packets are lost, then you need to add necessary route in the master using the command `ip`.
 
-Eg: ```bash
-        ip route add 172.27.0.0/24 via 192.168.10.74 dev eth0```
+Eg:
+    ```bash
+       ip route add 172.27.0.0/24 via 192.168.10.74 dev eth0
+  ```
 
 ## Docker Sensor Images
 
