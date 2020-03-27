@@ -206,12 +206,12 @@ The Raspberry Pi Camera module supports a variety of resolutions, ISO settings, 
 
 If no options under this section is set in the camera_module.yml file, the camera module is deployed with the default values. The default values and the supported values are described in the table below.
 
-| Argument     | Description                         | Supported Values                                             | Default Value                       |
-| ------------ | ----------------------------------- | ------------------------------------------------------------ | ----------------------------------- |
-| --resolution | Image resolution                    | 1920-1080, 3280-2464, 1640-1232, 1640-922, 1280-720, 640-480 | 1920-1080                           |
-| --output     | Location to store output.           | Any valid *nix path                                          | /camera_output/continuous_captures/ |
-| --interval   | Number of seconds between captures. | Must be an Integer.                                          | 10                                  |
-| --iso        | ISO Sensitivity Settings            | 100 - 800                                                    | 100                                 |
+| Argument   | Description                         | Supported Values                                             | Default Value                       |
+| ---------- | ----------------------------------- | ------------------------------------------------------------ | ----------------------------------- |
+| resolution | Image resolution                    | 1920-1080, 3280-2464, 1640-1232, 1640-922, 1280-720, 640-480 | 1920-1080                           |
+| output     | Location to store output.           | Any valid *nix path                                          | /camera_output/continuous_captures/ |
+| interval   | Number of seconds between captures. | Must be an Integer.                                          | 10                                  |
+| iso        | ISO Sensitivity Settings            | 100 - 800                                                    | 100                                 |
 
 
 
