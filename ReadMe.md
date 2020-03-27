@@ -33,13 +33,13 @@ Documentation for Urban Gardening
 This project provides an infrastructure to implement a self sustaining smart garden. It uses state-of-the-art technologies to implement a variety of useful tools to monitor, alert and explore on the basis of the data.
 The core of our work is the implementation of a greenhouse which provides sensors and actuators controlled via cloud systems to provide an optimal environment for plants.
 
-In picture 1 we can see in the general overview the idea to connect multiple greenhouses via a wifi network mesh to a Cloud service. Whereby particular greenhouses can serves as a gateway and are directly connected to the cloud.
+In figure 1 we can see in the general overview the idea to connect multiple greenhouses via a wifi network mesh to a Cloud service. Whereby particular greenhouses can serves as a gateway and are directly connected to the cloud.
 ![Overview](./documentation/diagrams/concept_overview_1.png)
 
-The greenhouses themselves contain a variety of sensors and actuators, as shown in Figure 2. These sensors and actuators are connected via the GPIO connectors to an Raspberry pi.  The Raspberry pi gathers the sensor data and distributes this data via the above mentioned mesh network. The Pi also receives instructions for the connected actuators and executes them.
+The greenhouses themselves contain a variety of sensors and actuators, as shown in figure 2. These sensors and actuators are connected via the GPIO connectors to an Raspberry pi.  The Raspberry pi gathers the sensor data and distributes this data via the above mentioned mesh network. The Pi also receives instructions for the connected actuators and executes them.
 ![Overview](./documentation/diagrams/concept_overview_3.png)
 
-Figure 3 gives an overview about the Software implementation. In the lower part we see Multiple Pi's which implement the mesh network via [B.A.T.M.A.N](https://www.open-mesh.org/projects/open-mesh/wiki). B.A.T.M.A.N. (better approach to mobile ad-hoc networking) is a routing protocol for multi-hop ad-hoc mesh networks. The sensor & actuator logic is implemented via Python and containerized in [Docker](https://www.docker.com/). Each Raspberry is a Worker Node in a [K3s](https://k3s.io/) cluster.  K3s is a lightweight Kubernetes built for IoT & Edge computing. It perfect to for running on something as small as a Raspberry Pi.  
+Figure 3 gives an overview about the Software implementation. In the lower part we see Multiple Pi's which implement the mesh network via [B.A.T.M.A.N](https://www.open-mesh.org/projects/open-mesh/wiki) (better approach to mobile ad-hoc networking) is a routing protocol for multi-hop ad-hoc mesh networks. The sensor & actuator logic is implemented via Python and containerized in [Docker](https://www.docker.com/). Each Raspberry is a Worker Node in a [K3s](https://k3s.io/) cluster.  K3s is a lightweight Kubernetes built for IoT & Edge computing. It perfect to for running on something as small as a Raspberry Pi.  
 The sensor communication is realized via [MQTT](http://mqtt.org/). In particular we use [Paho mqtt](https://www.eclipse.org/paho/) for pyhton on the Pi side and a Mosquitto MQTT Broker on the cloud side. 
 ![Overview](./documentation/diagrams/concept_overview_2.png)
 The cloud environment  consists of four services. A [Mosquitto](https://mosquitto.org/man/mqtt-7.html) MQTT broker for the communication with the greenhouse instances. [Telegraf](https://www.influxdata.com/time-series-platform/telegraf/) which subscribes to the published topics by the greenhouse sensors and  saves the data in an [influxdb](https://www.influxdata.com/) database. And lastly [Grafana](https://grafana.com/) which is used for data visualization and alerting.
@@ -115,35 +115,29 @@ Setup the node by inserting the SD card that contains the raspbian OS for the no
 
 Eg: ``` ip route add 172.27.0.0/24 via 192.168.10.74 dev eth0 ```
 
-## Docker Sensor Images
-
-Each sensor has its own docker Image. We use [Balenalib Raspbian](https://hub.docker.com/r/balenalib/rpi-raspbian) Images which is optimized for use in IoT Devices. Use the -f option in the scripts directory to make sure Docker finds all the files it needs.
-Example to build the dht sensor:
-
-       .../gardening-adventure/scripts$ docker build -f dht_sensor/Dockerfile -t dht .
-
 ## Setting up the Cloud Environment
 
 This chapter describes the implementation of the Cloud services. In detail the installation of Grafana, Influxdb, Mosquitto MQTT Broker and Telegraf.
 
 We use for all the cloud service installations [Helm](https://helm.sh) scripts. For the installation of Helm, please refer to the [documentation](https://helm.sh/docs/intro/quickstart/).
 
-**Note:** We used for all services the standard username: "admin" and password: "dspj2020"
+**Notice:** We used for all services the standard username: "admin" and password: "dspj2020"
 
 ### Helm Deployment
 
 First add the Mosquitto Broker helom chart via: ` helm repo add smizy https://smizy.github.io/charts`
 To start the services you can run the script in `gardening-adventure/cloud_garden/deployment/cloud_deployment.sh` This will start [Grafana](https://github.com/helm/charts/tree/master/stable/grafana), [Influxdb](https://github.com/helm/charts/tree/master/stable/influxdb), [Mosquitto MQTT Broker](https://github.com/smizy/charts/tree/master/mosquitto) and [Telegraf](https://github.com/helm/charts/tree/master/stable/telegraf) via helm. 
+
 **Notice**: This will start the services without any node selection. For that edit the corresponding settings in the yaml files.  For adding a label to a node use the following command : `kubectl label nodes <nodename> <key>=<value> --overwrite`
 
 ### Post Deployment Steps
-The Section gives examples for possible post deployment application of the Services. This includes Database connections, Charts and Alerts.
+The Section gives examples for possible post deployment application of the services. This includes Database connections, charts and alerts.
 #### Connecting Grafana with Influxdb
 
-Login to the grafana UI. Use `kubectl get svc` to get the IP's and Port of all services.
+Login to the grafana UI. Use `kubectl get svc` to get the IP's and ports of all services.
 
 1. Login to the Grafana Dashboard
-2. Click the gear wheel Icon on the left site and  select "Data Sources"
+2. Click the gear wheel icon on the left site and  select "Data Sources"
 3. click "Add data source"
 4. Choose Influxdb
 5. Add the influxDB url `hhtp://<Influxdb IP>:8086`
@@ -155,18 +149,18 @@ Login to the grafana UI. Use `kubectl get svc` to get the IP's and Port of all s
 
 After the datasource has been added the next step is to add the dashboard which displays the data from the datasource.
 
-* To create a Grafana dashboard click on `New dashboard`(Create -> New Dashboard -> Graph).
-* Click on Panel Title -> Edit. A new window with the graph will open up. Here we select the metric we would want to display in the graph. I will use the Temperature as an example.
-* Pick the data source that was defined earlier in the data source field. Tip: This should be influxdb datasource.
-* edit the query as follows -> in the `FROM` line, select the sensor name in the second dropdown. This will be the sensor that the graph will depict values from. In the `SELECT` line, pick the appropriate field, for example `temperature`. Pick the desired grouping time interval on line 3 and save the graph by clicking the save icon on the top right hand side.
-* Check the visibility of the data on the dashboard, the data should be available as a graph.
+1. To create a Grafana dashboard click on `New dashboard`(Create -> New Dashboard -> Graph).
+2. Click on Panel Title -> Edit. A new window with the graph will open up. Here we select the metric we would want to display in the graph. I will use the Temperature as an example.
+3. Pick the data source that was defined earlier in the data source field. Tip: This should be influxdb datasource.
+4. edit the query as follows -> in the `FROM` line, select the sensor name in the second dropdown. This will be the sensor that the graph will depict values from. In the `SELECT` line, pick the appropriate field, for example `temperature`. Pick the desired grouping time interval on line 3 and save the graph by clicking the save icon on the top right hand side.
+5. Check the visibility of the data on the dashboard, the data should be available as a graph.
 
 ![Dashboard Query](./documentation/diagrams/grafana-query.png)
 
 #### Grafana Alerts
 
 We used [Grafana's Alerts](https://grafana.com/docs/grafana/latest/alerting/rules/) to receive [notifications](https://grafana.com/docs/grafana/latest/alerting/notifications/) when, for example, humidity drops below a certain level.
-As an example we show here to configure an Alert sent to telegram. For more options please have a look at the Grafana's Alert documentation.
+As an example we show here to configure an alert sent to telegram. For more options please have a look at the Grafana's alert documentation.
 
 ##### Create a Telegram Altert
 
@@ -186,7 +180,7 @@ This should return an JSON object, you need to find key “chat” like this one
 12. Add chat ID (it starts with -, and that needs too)
 13. Click Test notification
 14. Save it.
-15. Create a Rule in the moister Graph panel ![panel](https://grafana.com/static/img/docs/v4/drag_handles_gif.gif)
+15. Create a rule in the moister graph panel ![panel](https://grafana.com/static/img/docs/v4/drag_handles_gif.gif)
 16. Go to dashboard
 17. Select the desired Graph
 18. Click Alarm icon
@@ -201,6 +195,13 @@ The installation includes the hardware and the software configuration of the sen
 
 Figure 4 shows the wiring of the sensors with the Raspberry Pi. Please note that an external 5V power supply is required when using several sensors and actuators. This is especially true if you use an LED light or a water pump.
 ![Wiring Diagram](./documentation/diagrams/wiring&#32;diagram/CIT-GardeningAdventure_bb.png)
+
+## Docker Sensor Images
+
+Each sensor has its own docker image. We use [Balenalib Raspbian](https://hub.docker.com/r/balenalib/rpi-raspbian) images which is optimized for the use in IoT devices. Use the -f option in the scripts directory to make sure Docker finds all the files it needs.
+Example to build the dht sensor:
+
+       .../gardening-adventure/scripts$ docker build -f dht_sensor/Dockerfile -t dht .
 
 ### Camera Configuration Options
 
@@ -221,7 +222,7 @@ If no options under this section is set in the camera_module.yml file, the camer
 
 If all required sensors are wired you can continue with the software installation. The installation of the desired devices is happening via a shell script. For that it is required that K3s is running on the Pi controlling the sensors and the IP address for the MQTT Broker is known.
 To start the Sensors run the  ```gardening-adventure/scripts/sensor_deployment.sh``` script in an environment with [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/#verifying-kubectl-configuration) configured. After the deployment the sensors immediately start sending data to the MQTT Broker
-
+**Note:** if you use your own Docker image reposetory please change this in the yml files.
 # Reference
 
 1. B.A.T.M.A.N installation and setup - [link](https://medium.com/@tdoll/how-to-setup-a-raspberry-pi-ad-hoc-network-using-batman-adv-on-raspbian-stretch-lite-dce6eb896687)
