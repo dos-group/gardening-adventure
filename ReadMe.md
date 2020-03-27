@@ -99,7 +99,7 @@ First setup the gateway Pi by connecting it to ethernet and inserting the SD car
 
 2. k3s_installation.sh
 
-Running the first script, brings up the B.A.T.M.A.N inteface for mesh network along with the Pi configured as a gateway. It starts a dhcp server for the inteface `bat0` and enables a custom service called `port-forwarding` which forwards packets across batman and ethernet interface.
+Running the first script, brings up the B.A.T.M.A.N inteface for mesh network along with the Pi configured as a gateway. It starts a dhcp server for the inteface `bat0` and enables a custom service called `port-forwarding.service` which forwards packets across batman and ethernet interface.
 
 Running the second script, installs K3s and add the Pi as a worker to a K3s cluster. If the k3s master is not part of the same network as gateway and belongs to public network, then k3s installation should be done via VPN. This is currently out of the scope of this repository. Refer [OpenVPN](https://openvpn.net/) or [Wiregaurd](https://www.wireguard.com/) for more information about setting up VPN.
 
