@@ -213,6 +213,7 @@ If no options under this section is set in the camera_module.yml file, the camer
 | interval   | Number of seconds between captures. | Must be an Integer.                                          | 10                                  |
 | iso        | ISO Sensitivity Settings            | 100 - 800                                                    | 100                                 |
 
+![Camera Configuration](./documentation/diagrams/camera-yml.png)
 
 
 ### Start Sensor and Actuators
