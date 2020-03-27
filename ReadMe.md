@@ -30,6 +30,7 @@ Documentation for Urban Gardening
         - [Create a Telegram Altert](#create-a-telegram-altert)
   - [Setting up the Greenhouse Environment](#setting-up-the-greenhouse-environment)
     - [Connecting Sensors](#connecting-sensors)
+    - [Camera Configuration Options](#camera-configuration-options)
     - [Start Sensor and Actuators](#start-sensor-and-actuators)
 
 # Introduction
@@ -199,6 +200,21 @@ The installation includes the hardware and the software configuration of the sen
 ### Connecting Sensors
 Figure 4 shows the wiring of the sensors with the Raspberry Pi. Please note that an external 5V power supply is required when using several sensors and actuators. This is especially true if you use an LED light or a water pump.
 ![Wiring Diagram](./documentation/diagrams/wiring&#32;diagram/CIT-GardeningAdventure_bb.png)
+
+### Camera Configuration Options
+The Raspberry Pi Camera module supports a variety of resolutions, ISO settings, Interval between Capture of Photos. All of these parameters are configurable. The camera_module.yml file takes all these parameters and deploys the camera module with the parameters requested. In the `spec` section, under `container` section, the options for the camera can be set under `arguments` section.
+
+If no options under this section is set in the camera_module.yml file, the camera module is deployed with the default values. The default values and the supported values are described in the table below.
+
+| Argument     | Description                         | Supported Values                                             | Default Value                       |
+| ------------ | ----------------------------------- | ------------------------------------------------------------ | ----------------------------------- |
+| --resolution | Image resolution                    | 1920-1080, 3280-2464, 1640-1232, 1640-922, 1280-720, 640-480 | 1920-1080                           |
+| --output     | Location to store output.           | Any valid *nix path                                          | /camera_output/continuous_captures/ |
+| --interval   | Number of seconds between captures. | Must be an Integer.                                          | 10                                  |
+| --iso        | ISO Sensitivity Settings            | 100 - 800                                                    | 100                                 |
+
+
+
 ### Start Sensor and Actuators
 If all required sensors are wired you can continue with the software installation. The installation of the desired devices is happening via a shell script. For that it is required that K3s is running on the Pi controlling the sensors and the IP address for the MQTT Broker is known.
 To start the Sensors run the  ```gardening-adventure/scripts/sensor_deployment.sh``` script in an environment with [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/#verifying-kubectl-configuration) configured. After the deployment the sensors immediately start sending data to the MQTT Broker
