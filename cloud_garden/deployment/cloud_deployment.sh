@@ -5,7 +5,7 @@ grafana="grafana-garden"
 telegraf="telegraf-garden"
 
 1>&2 echo "Install Mosquitto..."
-helm install garden -f mosquitto.yaml --set nodeSelector.mqtt=mosquitto smizy/mosquitto
+helm install garden -f mosquitto.yaml smizy/mosquitto
 ready=$(kubectl get pods -l app=$mosquitto -o jsonpath='{.items..status.containerStatuses..ready}')
 # check if mosquitto is ready
 1>&2 echo "Get Infos..."
@@ -30,7 +30,7 @@ export mosquittoIP=$(kubectl get svc -l  app=$mosquitto -o jsonpath='{.items..sp
 1>&2 echo ""
 
 1>&2 echo $"Install InfluxDB..."
-helm install $influxDB -f influxdb.yaml --set nodeSelector.databases=influxdb stable/influxdb
+helm install $influxDB -f influxdb.yaml stable/influxdb
 export influxdbIP=$(kubectl get svc -l app=$influxDB -o jsonpath='{.items..spec.clusterIP}')
 1>&2 echo "----------INFO----------"
 1>&2 echo "InfluxDB installed"
@@ -41,7 +41,7 @@ export influxdbIP=$(kubectl get svc -l app=$influxDB -o jsonpath='{.items..spec.
 
 1>&2 echo "Install Grafana..."
 helm install $grafana -f grafana.yaml stable/grafana
-export grafanaIP=$(kubectl get svc -l app=$grafana -o jsonpath='{.items..spec.clusterIP}')
+export grafanaIP=$(kubectl get svc -l release=$grafana -o jsonpath='{.items..spec.clusterIP}')
 1>&2 echo "----------INFO----------"
 1>&2 echo "Grafana installed"
 1>&2 echo "Grafana IP: $grafanaIP"
