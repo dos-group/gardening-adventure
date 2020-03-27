@@ -10,18 +10,28 @@ Documentation for Urban Gardening
 - [Introduction](#introduction)
   - [Goal](#goal)
 - [Prerequisites & Components](#prerequisites--components)
-  - [Components](#components)
+    - [Components listed per greenhouse.](#components-listed-per-greenhouse)
   - [Initial Setup](#initial-setup)
 - [Installation & Setup](#installation--setup)
+  - [Docker Sensor Images](#docker-sensor-images)
   - [Preliminary setup](#preliminary-setup)
-  - [setting up Kubernetes](#setting-up-kubernetes)
+  - [Setting up Kubernetes](#setting-up-kubernetes)
     - [Master node setup](#master-node-setup)
     - [worker node setup](#worker-node-setup)
-  - [Setting B.A.T.M.A.N](#batman-setup)
+  - [Setting up B.A.T.M.A.N](#setting-up-batman)
     - [Gateway node setup](#gateway-node-setup)
     - [Mesh node setup](#mesh-node-setup)
-  - [Testing Kubernetes](#testing-kubernetes)
-- [Connecting Sensors](#connecting-sensors)
+    - [Testing Kubernetes](#testing-kubernetes)
+  - [Setting up the Cloud Environment](#setting-up-the-cloud-environment)
+    - [Helm Deployment](#helm-deployment)
+    - [Post Deployment Steps](#post-deployment-steps)
+      - [Connecting Grafana with Influxdb](#connecting-grafana-with-influxdb)
+      - [Grafana Charts](#grafana-charts)
+      - [Grafana Alerts](#grafana-alerts)
+        - [Create a Telegram Altert](#create-a-telegram-altert)
+  - [Setting up the Greenhouse Environment](#setting-up-the-greenhouse-environment)
+    - [Connecting Sensors](#connecting-sensors)
+    - [Start Sensor and Actuators](#start-sensor-and-actuators)
 
 # Introduction
 This project provides an infrastructure to implement a self sustaining smart garden. It uses state-of-the-art technologies to implement a variety of useful tools to monitor, alert and explore on the basis of the data.
@@ -43,9 +53,9 @@ For the creation of the project we used a desktop computer as cloud environment(
 
 ### Components listed per greenhouse.
 
-| Component                 | Description                   | 
+| Component                 | Description                   |
 | ------------------------- | ----------------------------- |
-| Raspberry Pi 3B / 4       | Content Cell                  | 
+| Raspberry Pi 3B / 4       | Content Cell                  |
 | MicroSD Card 32GB         | Content Cell                  |
 | DHT22 Sensor              | Temperature & Humidity Sensor |
 | Water Level Sensor        | Analog Water Level Sensor     |
@@ -54,11 +64,11 @@ For the creation of the project we used a desktop computer as cloud environment(
 | MCP3008                   | 8 Channel 10-bit ADC          |
 | Breadboard                | -                             |
 | Male to Male Connectors   | -                             |
-| Male to Female Connectors | -                             | 
-| 5v Power Supply           | 2.5A Power Supply recommended | 
+| Male to Female Connectors | -                             |
+| 5v Power Supply           | 2.5A Power Supply recommended |
 | 5v Waterpump              | Water pump                    |
 | RGB LED                   | NeoPixel Ring - 12 x RGB LED  |
-| Jumper-Cabel              | 5v power supply for LED       | 
+| Jumper-Cabel              | 5v power supply for LED       |
 
 ## Initial Setup
 
@@ -177,7 +187,7 @@ This chapter describes the installation of a new smart greenhouse.
 The installation includes the hardware and the software configuration of the sensors/actuators and the Pi. 
 ### Connecting Sensors
 Figure 4 shows the wiring of the sensors with the Raspberry Pi. Please note that an external 5V power supply is required when using several sensors and actuators. This is especially true if you use an LED light or a water pump.
-![Wiring Diagram](./documentation/diagrams/wiring&#32;diagram/Wiring&#32;Diagram_bb.png)
+![Wiring Diagram](./documentation/diagrams/wiring&#32;diagram/CIT-GardeningAdventure_bb.png)
 ### Start Sensor and Actuators
 If all required sensors are wired you can continue with the software installation. The installation of the desired devices is happening via a shell script. For that it is required that K3s is running on the Pi controlling the sensors and the IP address for the MQTT Broker is known.
 To start the Sensors run the  ```gardening-adventure/scripts/sensor_deployment.sh``` script in an environment with [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/#verifying-kubectl-configuration) configured. After the deployment the sensors immediately start sending data to the MQTT Broker
