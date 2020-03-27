@@ -69,17 +69,13 @@ For the creation of the project we used a desktop computer as cloud environment(
 
 # Initial Setup
 
-Custom raspbian OS creation is part of this repository which installs necessary packages and configurations for setting up `gateway` and `node` Pis respectively. The configuration files are listed under the folder `batman`. These files could further be modified according the needs of the project. Also the image creation, requires any flavour of Linux OS.
+Custom raspbian OS creation is part of this repository which installs necessary packages and configurations for setting up `gateway` and `node` Pis respectively. The configuration files are listed under the folder `batman`. These files could further be modified according the needs of the project. Also the image creation, requires Ubuntu/Debian OS.
 
 To create an image:
 
 1. Clone this git repository
 
-2. ```bash
-        cd gardening-adventure
-    ```
-
-3. Run the scprit build-batman-node.sh
+2. Run the scprit build-batman-node.sh in the folder `garden-adventure`
 
   ```bash
         ./build-batman-node.sh -t [gateway|node] -n [hostname] -u [k3s_url] -k [k3s_token] -d [dns_ip]
@@ -101,7 +97,7 @@ First setup the gateway Pi by connecting it to ethernet and inserting the SD car
 
 Running the first script, brings up the B.A.T.M.A.N inteface for mesh network along with the Pi configured as a gateway. It starts a dhcp server for the inteface `bat0`.
 
-Running the second script, installs K3s and add the Pi as a worker to a K3s cluster. If the k3s master is not part of the same network as gateway and belongs to public network, then k3s installation should be done via VPN. This is currently out of the scope of this repository. Refer [OpenVPN](#) or [Wiregaurd](#) for more information about setting up VPN.
+Running the second script, installs K3s and add the Pi as a worker to a K3s cluster. If the k3s master is not part of the same network as gateway and belongs to public network, then k3s installation should be done via VPN. This is currently out of the scope of this repository. Refer [OpenVPN](https://openvpn.net/) or [Wiregaurd](https://www.wireguard.com/) for more information about setting up VPN.
 
 ## Mesh Node Setup
 
@@ -113,7 +109,8 @@ Setup the node by inserting the SD card that contains the raspbian OS for the no
 
 3. Before running the K3s installation script, make sure the k3s master can direct packets to the node using `ping` command. If the packets are lost, then you need to add necessary route in the master using the command `ip`.
 
-Eg: ip route add 172.27.0.0/24 via 192.168.10.74 dev eth0
+Eg: ```bash
+        ip route add 172.27.0.0/24 via 192.168.10.74 dev eth0```
 
 ## Docker Sensor Images
 
@@ -150,7 +147,6 @@ Login to the grafana UI. Use `kubectl get svc` to get the IP's and Port of all s
 6. Use `garden` as database
 7. The default influxdb user is `admin` and password is `dspj2020`
 8. Click `Save and Test`
-
 
 #### Grafana Charts
 
@@ -225,6 +221,6 @@ To start the Sensors run the  ```gardening-adventure/scripts/sensor_deployment.s
 
 # Reference
 
-1. B.A.T.M.A.N installation and setup - [link]()
-2. Raspbian image creation - [link]()
-3. Dhcp configuration - [link]()
+1. B.A.T.M.A.N installation and setup - [link](https://medium.com/@tdoll/how-to-setup-a-raspberry-pi-ad-hoc-network-using-batman-adv-on-raspbian-stretch-lite-dce6eb896687)
+2. Raspbian image creation - [link](https://github.com/jonesinator/raspbian-remaster)
+3. Dhcp configuration - [link](https://www.howtoforge.com/tutorial/install-and-configure-isc-dhcp-server-in-debian-9/)
