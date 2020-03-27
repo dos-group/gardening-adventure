@@ -137,7 +137,7 @@ To start the services you can run the script in `gardening-adventure/cloud_garde
 **Notice**: This will start the services without any node selection. For that edit the corresponding settings in the yaml files.  For adding a label to a node use the following command : `kubectl label nodes <nodename> <key>=<value> --overwrite`
 
 ### Post Deployment Steps
-
+The Section gives examples for possible post deployment application of the Services. This includes Database connections, Charts and Alerts.
 #### Connecting Grafana with Influxdb
 
 Login to the grafana UI. Use `kubectl get svc` to get the IP's and Port of all services.
