@@ -1,0 +1,7 @@
+auto bat0
+iface bat0 inet6 auto
+    pre-up /usr/sbin/batctl if add wlan0
+iface bat0 inet static
+    address 172.27.0.1
+    network 172.27.0.0
+    netmask 255.255.255.0

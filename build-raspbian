@@ -1,0 +1,102 @@
+#!/usr/bin/env bash
+# This script will bootstrap a very minimal installation of Raspbian. It is not
+# meant to be used as-is, but it is meant as a starting point for further
+# customization. An image built with just this will boot and resize the root
+# partition to fill up the SD card, but you won't be able to log in and the
+# network won't come up, so this really represents the bare minimum.
+set -e
+
+[[ $# -ne 1 ]] && echo "Usage: $0 [chroot_path]" && exit 1
+CHROOT="${1}"
+RELEASE="stretch"
+RASPBIAN_REPO_URL="http://mirrordirector.raspbian.org/raspbian/"
+RASPBIAN_KEY_URL="http://mirrordirector.raspbian.org/raspbian.public.key"
+RASPBIAN_KEY_SIGNATURE="0xA0DA38D0D76E8B5D638872819165938D90FDDD2E"
+RASPBERRYPI_REPO_URL="http://archive.raspberrypi.org/debian/"
+RASPBERRYPI_KEY_URL="https://archive.raspberrypi.org/debian/raspberrypi.gpg.key"
+RASPBERRYPI_KEY_SIGNATURE="0xCF8A1AF502A2AA2D763BAE7E82B129927FA3303E"
+
+# Make sure the build environment has our dependencies.
+apt-get update
+apt-get install -y --no-install-recommends \
+  binfmt-support ca-certificates curl debootstrap dosfstools parted qemu \
+  qemu-user-static rsync
+
+# Download, validate, and import the Raspbian and Raspberry Pi keys.
+GPGDIR=$(mktemp -d --suffix=_GPG)
+chmod 600 "${GPGDIR}"
+
+curl --silent -o "${GPGDIR}/RASPBIAN_KEY.key" "${RASPBIAN_KEY_URL}"
+gpg -q --homedir "${GPGDIR}" --import "${GPGDIR}/RASPBIAN_KEY.key"
+gpg --homedir "${GPGDIR}" -k "${RASPBIAN_KEY_SIGNATURE}"
+apt-key add "${GPGDIR}/RASPBIAN_KEY.key"
+
+curl --silent -o "${GPGDIR}/RASPBERRYPI_KEY.key" "${RASPBERRYPI_KEY_URL}"
+gpg -q --homedir "${GPGDIR}" --import "${GPGDIR}/RASPBERRYPI_KEY.key"
+gpg --homedir "${GPGDIR}" -k "${RASPBERRYPI_KEY_SIGNATURE}"
+apt-key add "${GPGDIR}/RASPBERRYPI_KEY.key"
+
+# Bootstrap Raspbian.
+mkdir -p "${CHROOT}"
+qemu-debootstrap --arch armhf --keyring /etc/apt/trusted.gpg \
+  --include="locales" "${RELEASE}" "${CHROOT}" "${RASPBIAN_REPO_URL}"
+
+# Bind mount things into the chroot environment.
+mkdir -p "${CHROOT}/{proc,sys,dev/pts}"
+mount| grep -q "${CHROOT}/proc"    || mount -t proc none     "${CHROOT}/proc"
+mount| grep -q "${CHROOT}/sys"     || mount -t sysfs none    "${CHROOT}/sys"
+mount| grep -q "${CHROOT}/dev"     || mount -o bind /dev     "${CHROOT}/dev"
+mount| grep -q "${CHROOT}/dev/pts" || mount -o bind /dev/pts "${CHROOT}/dev/pts"
+
+# Add the gpg keys we retreived above into the image.
+chroot "${CHROOT}" apt-key add <(cat "${GPGDIR}"/*.key)
+rm -rf "${GPGDIR}"
+
+# Set up the locale.
+echo 'en_US.UTF-8 UTF-8' >> "${CHROOT}/etc/locale.gen"
+chroot "${CHROOT}" locale-gen
+chroot "${CHROOT}" sh -e - << EOF
+echo 'locales locales/default_environment_locale select en_US.UTF-8' | \
+  debconf-set-selections
+EOF
+chroot "${CHROOT}" dpkg-reconfigure -f noninteractive locales
+
+# Configure apt, update Raspbian, and install needed packages.
+cat << EOF > "${CHROOT}/etc/apt/sources.list"
+deb ${RASPBIAN_REPO_URL} ${RELEASE} main contrib non-free rpi
+deb ${RASPBERRYPI_REPO_URL} ${RELEASE} main ui
+EOF
+chroot "${CHROOT}" apt-get update
+chroot "${CHROOT}" apt-get dist-upgrade -y
+chroot "${CHROOT}" apt-get install -y --no-install-recommends \
+  e2fsprogs fake-hwclock parted raspberrypi-bootloader raspberrypi-kernel \
+
+# Script that will resize the root partition and filesystem on first boot.
+cat << EOF > "${CHROOT}/resize_root"
+#!/bin/sh
+mount -t proc proc /proc
+mount -t sysfs sys /sys
+mount /boot
+sed -i 's/ quiet init=.*$//' /boot/cmdline.txt
+parted --script --align opt /dev/mmcblk0 -- resizepart 2 -1s
+mount / -o remount,rw
+resize2fs /dev/mmcblk0p2
+rm /resize_root
+sync
+echo b > /proc/sysrq-trigger
+EOF
+chmod +x "${CHROOT}/resize_root"
+
+# Standard Raspberry Pi command line except on first boot we invoke the resize
+# script. The resize script will remove "quiet init=/resize_root" when it
+# completes so the second boot should be normal.
+echo "dwc_otg.lpm_enable=0 console=serial0,115200 console=tty1 \
+root=/dev/mmcblk0p2 rootfstype=ext4 elevator=deadline fsck.repair=yes \
+rootwait quiet init=/resize_root" > "${CHROOT}/boot/cmdline.txt"
+
+# Standard Raspberry Pi fstab.
+cat << EOF > "${CHROOT}/etc/fstab"
+proc            /proc proc defaults         0 0
+/dev/mmcblk0p1  /boot vfat defaults         0 0
+/dev/mmcblk0p2  /     ext4 defaults,noatime 0 1
+EOF

@@ -1,3 +1,0 @@
-sudo chmod 755 garden-mesh.sh
-
-sudo echo "./garden-mesh.sh" >> .bashrc

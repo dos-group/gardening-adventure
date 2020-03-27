@@ -1,0 +1,9 @@
+[Unit]
+Description=Port Forwarding Service
+
+[Service]
+Type=idle
+ExecStart=/root/port-forwarding.sh
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,6 @@
+auto wlan0
+iface wlan0 inet6 manual
+   mtu 1500
+   wireless-channel 1
+   wireless-essid smart-garden
+   wireless-mode ad-hoc

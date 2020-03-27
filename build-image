@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+# This script takes a directory bootstrapped with Rasbian and turns it into an
+# image file that can be transferred to an SD card and booted.
+set -e
+
+# Get configuration from script arguments.
+[[ $# -ne 2 ]] && echo "Usage: $0 [chroot_path] [image_path]" && exit 1
+CHROOT="${1}"
+PUBLISH=$(dirname "$2")
+IMAGE=$(basename "$2")
+
+# Clean up some things to save space and unmount the image.
+chroot "${CHROOT}" apt-get clean
+rm -rf "${CHROOT}"/{var/lib/apt/lists/*,tmp/*,var/tmp/*}
+umount -l "${CHROOT}"/{proc,sys,dev/pts,dev}
+rm -rf "${CHROOT}"/{proc,sys,dev}/*
+
+# Determine the size of boot and root, then calculate parition sizes based on
+# those. We're using ext4 for the root partition. It reserves some space by
+# default for the root user and there's other storage overhead for inodes, etc.
+# We need to add in some overhead, and empirically 7% seems to work. Just double
+# the size of the boot partition for updates.
+BOOTSIZE=$(du -s -B M "${CHROOT}/boot" | cut -f1 | tr -d 'M')
+BOOTSIZE=$((BOOTSIZE*3))
+ROOTSIZE=$(du -s -B M --exclude boot "${CHROOT}" | cut -f1 | tr -d 'M')
+ROOTSIZE=$((ROOTSIZE*107*2/100))
+
+# Create the image file with partitions and filesystems on a loopback device.
+BUILD=$(mktemp -d --suffix=_BUILD)
+fallocate -l $((BOOTSIZE+ROOTSIZE))M "${BUILD}/${IMAGE}"
+LOOP=$(losetup -f --show "${BUILD}/${IMAGE}")
+parted --script "${LOOP}" -- mktable msdos
+parted --script "${LOOP}" -- mkpart primary fat32 1MiB "${BOOTSIZE}MiB"
+parted --script "${LOOP}" -- mkpart primary ext4 "${BOOTSIZE}MiB" -1s
+mkfs.vfat "${LOOP}p1"
+mkfs.ext4 "${LOOP}p2"
+
+# Mount the partitions then copy the filesystem to the image file.
+mkdir "${BUILD}/root"
+mount "${LOOP}p2" "${BUILD}/root"
+mkdir "${BUILD}/root/boot"
+mount "${LOOP}p1" "${BUILD}/root/boot"
+rsync -av --progress "${CHROOT}/" "${BUILD}/root/"
+
+# Move the completed image to the publish directory and complete cleanup.
+mkdir -p "${PUBLISH}"
+mv "${BUILD}/${IMAGE}" "${PUBLISH}"
+umount -R "${BUILD}/root"
+rm -rf "${BUILD}" "${LOOP}p1" "${LOOP}p2"
+losetup -d "${LOOP}"
