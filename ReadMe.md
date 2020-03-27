@@ -75,7 +75,7 @@ To create an image:
 
 1. Clone this git repository
 
-2. Run the scprit build-batman-node.sh in the folder `garden-adventure`
+2. Run the script build-batman-node.sh in the folder `garden-adventure`
 
   ```bash
         ./build-batman-node.sh -t [gateway|node] -n [hostname] -u [k3s_url] -k [k3s_token] -d [dns_ip]
@@ -96,10 +96,10 @@ Using Raspberry Pi Imager, burn the created image onto a SD card. The created im
   - [Linux](https://www.raspberrypi.org/documentation/installation/installing-images/linux.md)
   - [MacOS](https://www.raspberrypi.org/documentation/installation/installing-images/mac.md)
   - [ChromeOS](https://www.raspberrypi.org/documentation/installation/installing-images/chromeos.md)
-  - 
+
 ## Mesh Gateway Setup
 
-First setup the gateway Pi by connecting it to ethernet and inserting the SD card that contains the raspbian OS for gateway. Under the root user following scripts can be found:
+First setup the gateway Pi by connecting it to ethernet and inserting the SD card that contains the raspbian OS for gateway and powering it on. The first boot steps will be performed and you can login with the details provided above. Under the root user following scripts can be found:
 
 1. smart-garden-mesh.sh
 
