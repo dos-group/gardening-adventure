@@ -112,13 +112,13 @@ Running the second script, installs K3s and adds the Pi as a worker to a K3s clu
 
 ## Mesh Node Setup
 
-Setup the node by inserting the SD card that contains the raspbian OS for the node. The ethernet connection is not need for the node setup. Also under the root user, the above mentioned scripts could be found.
+Setup the node by inserting the SD card that contains the raspbian OS for the node. The ethernet connection is not needed for the node setup. Also under the root user, the above mentioned scripts could be found.
 
 1. First run smart-garden-mesh.sh to setup the B.A.T.M.A.N
 
 2. Wait until the interface `bat0` gets an ip address from DHCP server within the range `172.27.0.100 - 172.27.0.200`. This may take a time of 20-30s.
 
-3. Before running the K3s installation script, make sure the k3s master can direct packets to the node using `ping` command. If the packets are lost, then you need to add necessary route in the master using the command `ip`.
+3. Before running the K3s installation script, make sure the k3s master can direct packets to the node using `ping` command. If the packet loss is 100%, then you need to add necessary route in the k3s master using the command `ip`.
 
 Eg: ``` ip route add 172.27.0.0/24 via 192.168.10.74 dev eth0 ```
 
