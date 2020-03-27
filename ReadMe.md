@@ -86,6 +86,7 @@ Specify the required options for the above command(type, hostname, k3s url, k3s 
 * The above command downloads the base image of raspbian STRETCH. This base image can be modified as per the needs by changing the base iamge url in the file `build-raspbian`.
 * Further, the command creates two installation scripts under the root user as part of each image(gateway/node).
 * Root user is created with the password `raspberry`. This can also be modified in the file `build-batman-node.sh`
+* The image created, has only limited firmwares installed that are necessary for the project(`brcm` for wlan interface). Other firmwares could be installed from [here](https://github.com/RPi-Distro/firmware-nonfree). They should be copied at the time of image creation. Refer the script `build-batman-node.sh`.
 
 # Installation & Setup
 
