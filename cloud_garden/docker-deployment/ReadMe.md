@@ -1,1 +1,1 @@
-**Note**: This deployment scrips are depricated.
+**Note**: This deployment scripts are depricated.
