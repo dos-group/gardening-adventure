@@ -159,9 +159,12 @@ THIS SECTION IS INCOMPLETE
 
 #### Grafana Charts
 After the datasource has been added the next step is to add the dashboard which displays the data from the datasource.
-To create a Grafana dashboard click on `New dashboard`(Create -> New Dashboard -> Graph). Click on Panel Title -> Edit. A new window with the graph will open up. Here we select the metric we would want to display in the graph. I will use the Temperature as an example.
-Click Add Query. Grafana creates a basic graph panel with the Random Walk scenario.
+* To create a Grafana dashboard click on `New dashboard`(Create -> New Dashboard -> Graph). 
+* Click on Panel Title -> Edit. A new window with the graph will open up. Here we select the metric we would want to display in the graph. I will use the Temperature as an example.
+* Click Add Query. Grafana creates a basic graph panel with the Random Walk scenario.
 Save your dashboard. Click the Save dashboard icon in the top corner of the screen.
+![Dashboard Query](./documentation/diagrams/grafana-query.png)
+
 #### Grafana Alerts
 We used [Grafana's Alerts](https://grafana.com/docs/grafana/latest/alerting/rules/) to receive [notifications](https://grafana.com/docs/grafana/latest/alerting/notifications/) when, for example, humidity drops below a certain level.
 As an example we show here to configure an Alert sent to telegram. For more options please have a look at the Grafana's Alert documentation.
