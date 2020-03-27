@@ -1,4 +1,3 @@
-
 sudo batctl if add wlan0
 sudo /etc/init.d/networking restart
 
