@@ -161,6 +161,7 @@ After the datasource has been added the next step is to add the dashboard which 
 3. Pick the data source that was defined earlier in the data source field. Tip: This should be influxdb datasource.
 4. edit the query as follows -> in the `FROM` line, select the sensor name in the second dropdown. This will be the sensor that the graph will depict values from. In the `SELECT` line, pick the appropriate field, for example `temperature`. Pick the desired grouping time interval on line 3 and save the graph by clicking the save icon on the top right hand side.
 5. Check the visibility of the data on the dashboard, the data should be available as a graph.
+6. Repeat these steps for every data available from the sensors.
 
 ![Dashboard Query](./documentation/diagrams/grafana-query.png)
 

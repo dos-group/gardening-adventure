@@ -17,7 +17,6 @@ all_sensor () {
   dht_sensor
   moisture_sensor
   waterlevel_sensor
-  camera_sensor
 }
 
 ldr_sensor () {
