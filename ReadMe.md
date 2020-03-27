@@ -71,7 +71,7 @@ For the creation of the project we used a desktop computer as cloud environment(
 | Jumper-Cabel              | 5v power supply for LED                                      |
 
 ## Initial Setup
-
+PLACE CUSTOM IMAGE CREATION BEFORE THIS SECTION
 - [Downloading Raspbian](https://www.raspberrypi.org/downloads/raspbian/)
 - Writing the Raspbian Image to the SD Card
   - [Windows](https://www.raspberrypi.org/documentation/installation/installing-images/windows.md)
